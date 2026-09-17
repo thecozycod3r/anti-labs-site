@@ -45,6 +45,19 @@ canonical or og:image, more or fewer than one h1, a skipped heading level,
 invalid JSON-LD, a missing alt, a broken srcset file, an oversized image, an
 opaque PNG, or a sitemap with a non-HTTPS URL.
 
+The same checks, generalised to run on any static site, live in the `seo-audit`
+skill (`~/.claude/skills/seo-audit`). It needs no config, adds broken-link and
+mixed-content checks, and carries a browser probe for the half that markup
+cannot show — Core Web Vitals, horizontal overflow, tap targets, contrast:
+
+```bash
+python3 ~/.claude/skills/seo-audit/scripts/audit.py            # 0 failures here
+node ~/.claude/skills/seo-audit/scripts/probe_runner.mjs <url> --widths 390,1440
+```
+
+The tools in `tools/` stay because they own this site's copy, domain and
+per-page JSON-LD; the skill only checks.
+
 ## Images
 
 `tools/images.py` caps originals at 1600px (nothing renders wider, even at 2×),
