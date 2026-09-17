@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /_1to1-baseline/
+Disallow: /docs-meta/
+Disallow: /tools/
+
+Sitemap: https://www.theantilabs.com/sitemap.xml

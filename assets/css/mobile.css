@@ -52,6 +52,20 @@
   .foot__label { display: none !important; }          /* repeats the name */
   .foot__addr  { order: 3; max-width: 30ch; }
   .foot__mail  { order: 4; }
+  .foot__nav   {
+    order: 5;
+    justify-content: center;
+    gap: 0 6px;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+  }
+  .foot__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 8px;
+  }
 
   /* ---- 3. HOME — hero collage, recomposed for a narrow screen ----------- */
 

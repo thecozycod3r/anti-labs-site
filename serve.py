@@ -18,6 +18,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Accept-Ranges', 'bytes')
         super().end_headers()
 
+    def translate_path(self, path):
+        # mirror GitHub Pages: /anti-light serves anti-light.html
+        real = super().translate_path(path)
+        if not os.path.exists(real) and os.path.exists(real + '.html'):
+            return real + '.html'
+        return real
+
     def send_head(self):
         m = RANGE.match(self.headers.get('Range', ''))
         path = self.translate_path(self.path)

@@ -1,4 +1,5 @@
-@import url("fonts.css");
+/* fonts.css is linked directly from each page — an @import chains the request
+   behind this sheet and delays font discovery. */
 
 /* ==========================================================================
    Tokens
@@ -76,6 +77,28 @@ h4 {
 
 /* Off-screen positioning (left: -15000px) still counts toward scrollWidth and
    showed up as phantom horizontal overflow on phones. Clip instead. */
+/* Display treatment for elements that look like headings but aren't —
+   the hero wordmark and the footer name. */
+.t-display {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip {
   position: absolute;
   width: 1px;
@@ -451,6 +474,50 @@ em {
 .foot {
   height: 261px;
 }
+
+/* every footer child shares row 1 and is placed by margin — the replica pages
+   got this from their own sheets, the new pages never did */
+.foot > * {
+  grid-row: 1;
+  align-self: start;
+}
+
+.foot__nav {
+  grid-column: 1 / span 8;
+  margin-top: 104px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+
+.foot__nav a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 240, 0.6);
+  transition: color 0.2s ease;
+}
+
+.foot__nav a:hover,
+.foot__nav a:focus-visible { color: var(--paper); }
+
+.acc__more {
+  margin-top: 14px;
+  padding-bottom: 22px;
+}
+
+.acc__more a {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+
+.acc__more a:hover { color: var(--paper); }
 
 .foot__mark {
   grid-column: 1 / span 24;

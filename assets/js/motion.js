@@ -297,9 +297,14 @@
       if (!a) return;
       var href = a.getAttribute('href');
       if (!href || href.charAt(0) === '#' || a.target === '_blank') return;
+      if (/^(mailto|tel|sms):/i.test(href) || a.hasAttribute('download')) return;
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       if (a.hostname && a.hostname !== window.location.hostname) return;
-      if (!/\.html?$/.test(href)) return;
+      // pages use clean URLs now; skip anything that points at a file
+      var path = a.pathname || '';
+      if (/\.(?!html?$)[a-z0-9]{2,5}$/i.test(path)) return;
+      // same page, different anchor: let the browser scroll
+      if (path === window.location.pathname && a.hash) return;
 
       e.preventDefault();
       document.body.classList.add('is-leaving');
