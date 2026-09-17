@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Home — section metrics measured off the source at 1440 / 390.
+   Same technique as anti-light.css: fluid 24-column grid, fixed row offsets.
+   ========================================================================== */
+
+.sec > *:not(.sec__bg) {
+  grid-row: 1;
+  align-self: start;
+}
+
+/* --- 1. Hero (collage) --------------------------------------------------- */
+
+.h-hero {
+  height: 1148px;
+}
+
+.h-hero__img1 {
+  grid-column: 3 / span 5;
+  margin-top: 215px;
+  width: 100%;
+  height: 312px;
+  object-fit: cover;
+}
+
+.h-hero__img2 {
+  grid-column: 8 / span 8;
+  margin-top: 498px;
+  width: 100%;
+  height: 433px;
+  object-fit: cover;
+}
+
+.h-hero__img3 {
+  grid-column: 18 / span 5;
+  margin-top: 296px;
+  width: 100%;
+  height: 353px;
+  object-fit: cover;
+}
+
+.h-hero__title {
+  grid-column: 1 / span 13;
+  margin-top: 256px;
+  font-size: 9.5833vw;   /* 138px @1440 */
+  line-height: 1;
+  text-align: center;
+}
+
+.h-hero__title2 {
+  grid-column: 14 / span 11;
+  margin-top: 579px;
+  font-size: 8.75vw;     /* 126px @1440 */
+  line-height: 1;
+  text-align: center;
+}
+
+.h-hero__scroll {
+  grid-column: 7 / span 12;
+  margin-top: 1023px;
+  text-align: center;
+}
+
+/* --- 2. Manifesto -------------------------------------------------------- */
+
+.h-manifesto {
+  height: 1189px;
+}
+
+.h-manifesto__img-main {
+  grid-column: 9 / span 8;
+  margin-top: 95px;
+  width: 100%;
+  height: 555px;
+  object-fit: cover;
+}
+
+.h-manifesto__text {
+  grid-column: 8 / span 10;
+  margin-top: 355px;
+  text-align: center;
+}
+
+.h-manifesto__img-side {
+  grid-column: 18 / span 6;
+  margin-top: 499px;
+  width: 100%;
+  height: 433px;
+  object-fit: cover;
+}
+
+.h-manifesto__img-cafe {
+  grid-column: 3 / span 8;
+  margin-top: 782px;
+  width: 100%;
+  height: 312px;
+  object-fit: cover;
+}
+
+/* --- 3. Studio cards ----------------------------------------------------- */
+
+.h-cards {
+  height: 731px;
+}
+
+.h-cards__img-a {
+  grid-column: 3 / span 8;
+  margin-top: 48px;
+  width: 100%;
+  height: 433px;
+  object-fit: cover;
+}
+
+.h-cards__img-b {
+  grid-column: 16 / span 6;
+  margin-top: 88px;
+  width: 100%;
+  height: 393px;
+  object-fit: cover;
+}
+
+.h-cards__title-a,
+.h-cards__title-b {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.h-cards__title-a { grid-column: 2 / span 10; }
+.h-cards__title-b { grid-column: 14 / span 10; }
+
+.h-cards__tag-a,
+.h-cards__tag-b {
+  margin-top: 527px;
+  text-align: center;
+}
+
+.h-cards__tag-a { grid-column: 2 / span 10; }
+.h-cards__tag-b { grid-column: 14 / span 10; }
+
+.h-cards__cta-a,
+.h-cards__cta-b {
+  margin-top: 573px;
+  text-align: center;
+}
+
+.h-cards__cta-a { grid-column: 2 / span 10; }
+.h-cards__cta-b { grid-column: 14 / span 10; }
+
+/* Squarespace focal points, read off the source's computed object-position. */
+.h-manifesto__img-main { object-position: 51.7333% 77.6%; }
+.h-manifesto__img-cafe { object-position: 49.4079% 73.6164%; }
+.h-cards__img-b       { object-position: 100% 95.2%; }
+
+/* --- 4. The spaces (video background) ------------------------------------ */
+
+.h-spaces {
+  height: 613px;
+}
+
+.h-spaces__title {
+  grid-column: 1 / span 12;
+  margin-top: 269px;
+  font-size: 7.1806vw;   /* 103.4px @1440 */
+  line-height: 1;
+}
+
+.h-spaces__acc {
+  grid-column: 15 / span 10;
+  margin-top: 217px;
+}
+
+.acc--spaces .acc__item {
+  border-top: 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.45);
+}
+
+.acc--spaces .acc__item:last-child {
+  border-bottom: 1px solid rgba(240, 240, 240, 0.45);
+}
+
+.acc--spaces .acc__btn {
+  padding: 21px 0;
+  font-family: var(--display);
+  font-size: 1.5217vw;
+  line-height: 30.186px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* chevron rather than a plus */
+.acc--spaces .acc__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.acc--spaces .acc__icon::before,
+.acc--spaces .acc__icon::after {
+  inset: 40% auto auto 0;
+  width: 9px;
+  transform-origin: 0 50%;
+  transform: rotate(45deg);
+}
+
+.acc--spaces .acc__icon::after {
+  left: auto;
+  right: 0;
+  transform-origin: 100% 50%;
+  transform: rotate(-45deg);
+  opacity: 1;
+}
+
+.acc--spaces .acc__item.is-open .acc__icon::before {
+  transform: rotate(-45deg);
+}
+
+.acc--spaces .acc__item.is-open .acc__icon::after {
+  transform: rotate(45deg);
+  opacity: 1;
+}
+
+.acc--spaces .acc__panel > div > p {
+  padding-bottom: 24px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+  max-width: 52ch;
+}
+
+/* --- 5. Footer ----------------------------------------------------------- */
+
+.h-footer {
+  height: 261px;
+}
+
+/* ==========================================================================
+   Mobile (8-column grid, measured at 390)
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .h-hero { height: 720px; }
+  .h-hero__img1 { grid-column: 1 / span 5; margin-top: 179px; height: 304px; }
+  .h-hero__img2 { grid-column: 5 / span 4; margin-top: 284px; height: 234px; }
+  .h-hero__img3 { grid-column: 2 / span 6; margin-top: 459px; height: 129px; }
+  .h-hero__title { grid-column: 1 / span 6; margin-top: 214px; font-size: 12.2564vw; }
+  .h-hero__title2 { grid-column: 4 / span 5; margin-top: 424px; font-size: 10.9231vw; }
+  .h-hero__scroll { grid-column: 1 / span 8; margin-top: 640px; }
+
+  .h-manifesto { height: 750px; }
+  .h-manifesto__img-side { grid-column: 1 / span 5; margin-top: 49px; height: 164px; }
+  .h-manifesto__text { grid-column: 2 / span 6; margin-top: 49px; }
+  .h-manifesto__img-main { grid-column: 2 / span 6; margin-top: 154px; height: 376px; }
+  .h-manifesto__img-cafe { grid-column: 5 / span 4; margin-top: 471px; height: 199px; }
+
+  .h-cards { height: 820px; }
+  .h-cards__title-a { grid-column: 3 / span 4; margin-top: 109px; }
+  .h-cards__img-a { grid-column: 2 / span 6; margin-top: 144px; height: 164px; }
+  .h-cards__tag-a { grid-column: 1 / span 8; margin-top: 340px; }
+  .h-cards__cta-a { grid-column: 1 / span 8; margin-top: 386px; }
+  .h-cards__title-b { grid-column: 3 / span 4; margin-top: 494px; }
+  .h-cards__img-b { grid-column: 3 / span 4; margin-top: 535px; height: 171px; }
+  .h-cards__tag-b { grid-column: 1 / span 8; margin-top: 738px; }
+  .h-cards__cta-b { grid-column: 1 / span 8; margin-top: 784px; }
+
+  .h-spaces { height: 590px; }
+  .h-spaces__title { grid-column: 1 / span 5; margin-top: 143px; font-size: 8.2051vw; }
+  .h-spaces__acc { grid-column: 1 / span 8; margin-top: 319px; }
+  .acc--spaces .acc__btn { padding: 19px 0; font-size: 4.8849vw; line-height: 26px; }
+
+  .h-footer { height: 272px; }
+}

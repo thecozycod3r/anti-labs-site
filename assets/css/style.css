@@ -1,0 +1,436 @@
+@import url("fonts.css");
+
+/* ==========================================================================
+   Tokens
+   Reference viewports: 1440 (desktop) and 390 (mobile).
+   The source site lays out on a fluid 24-column grid at desktop and an
+   8-column grid at mobile; columns are fluid, row heights are fixed.
+   ========================================================================== */
+
+:root {
+  --ink: #0e0d0c;
+  --paper: #f0f0f0;
+  --red: #bb1122;
+  --blue: #abbcc4;
+  --slate: #404c4f;
+
+  --display: "Boldonse", "Arial Black", sans-serif;
+  --mono: "Space Mono", ui-monospace, "SFMono-Regular", monospace;
+  --grotesk: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  /* grid */
+  --cols: 24;
+  --gap: 12px;
+  --pad: 2.5vw;        /* 36px @1440 */
+  --pad-inset: 5vw;    /* 72px @1440 — "inset" sections double the gutter */
+
+  --header-h: 120px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.skip {
+  position: absolute;
+  left: -15000px;
+  top: 0;
+}
+
+.skip:focus {
+  left: 0;
+  z-index: 100;
+  padding: 15px 19.5px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--grotesk);
+}
+
+/* --------------------------------------------------------------------------
+   Grid primitives
+   -------------------------------------------------------------------------- */
+
+.sec {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gap);
+  padding-inline: var(--pad);
+}
+
+.sec--inset {
+  padding-inline: var(--pad-inset);
+}
+
+/* A section's full-bleed / inset background layer sits behind the grid.
+   Scoped under .sec so it outranks the `.sec > *` positioning rule below. */
+.sec > .sec__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sec > .sec__bg--inset {
+  inset: 36px var(--pad);
+}
+
+.sec__bg img,
+.sec__bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sec > *:not(.sec__bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Header — fixed, logo centred
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  position: fixed;
+  transition: transform 0.3s ease;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--header-h);
+  background: var(--ink);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* The source header retracts while scrolling down and returns on scroll up. */
+.masthead.is-hidden {
+  transform: translateY(-100%);
+}
+
+.masthead__logo {
+  width: 176px;
+  height: 100px;
+  margin-top: 10px;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   Shared type scale (values measured off the source at 1440)
+   -------------------------------------------------------------------------- */
+
+.t-hero {
+  font-size: 6.4236vw;   /* 92.5px @1440 */
+  line-height: 1;
+}
+
+.t-h1 {
+  font-size: 2.8417vw;   /* 40.92px */
+  line-height: 1.316;
+}
+
+.t-h2 {
+  font-size: 2.4817vw;   /* 35.736px */
+  line-height: 1.3328;
+}
+
+.t-h3 {
+  font-size: 2.0017vw;   /* 28.824px */
+  line-height: 1.3552;
+}
+
+.t-h4 {
+  font-size: 1.5217vw;   /* 21.912px */
+  line-height: 1.3776;
+}
+
+.t-body {
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+.t-small {
+  font-family: var(--mono);
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+/* The source sizes display text to fit one line; keep it on one line so a
+   sub-pixel rounding difference can never introduce a wrap. */
+.t-fit {
+  white-space: nowrap;
+}
+
+.u-red { color: var(--red); }
+.u-blue { color: var(--blue); }
+.u-paper { color: var(--paper); }
+.u-center { text-align: center; }
+.u-right { text-align: right; }
+
+em {
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons / links
+   -------------------------------------------------------------------------- */
+
+.btn-rule {
+  display: block;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--blue);
+  color: var(--blue);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 10.68px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-rule:hover {
+  color: var(--paper);
+  border-color: var(--paper);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 4.5px 19.5px;
+  border: 0.5px solid currentColor;
+  border-radius: 6px;
+  font-family: var(--grotesk);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline--red {
+  color: var(--red);
+}
+
+.btn-outline--red:hover {
+  background: var(--red);
+  color: var(--paper);
+}
+
+.btn-outline--paper {
+  color: var(--paper);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  background: transparent;
+}
+
+.btn-outline--paper:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Accordion (studio features, FAQ, the spaces)
+   -------------------------------------------------------------------------- */
+
+.acc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.acc__item {
+  border-top: 1px solid rgba(240, 240, 240, 0.35);
+}
+
+.acc__item:last-child {
+  border-bottom: 1px solid rgba(240, 240, 240, 0.35);
+}
+
+.acc__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--paper);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.acc__icon {
+  flex: none;
+  position: relative;
+  width: 13px;
+  height: 13px;
+}
+
+.acc__icon::before,
+.acc__icon::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.acc__icon::after {
+  transform: rotate(90deg);
+}
+
+.acc__item.is-open .acc__icon::after {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+.acc__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
+}
+
+.acc__item.is-open .acc__panel {
+  grid-template-rows: 1fr;
+}
+
+.acc__panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — identical on both pages
+   -------------------------------------------------------------------------- */
+
+.foot {
+  height: 261px;
+}
+
+.foot__mark {
+  grid-column: 1 / span 24;
+  margin-top: 15px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.foot__mark img {
+  display: inline-block;
+  width: 71px;
+  height: 71px;
+  object-fit: contain;
+}
+
+.foot__name {
+  grid-column: 1 / span 8;
+  margin-top: 55px;
+}
+
+.foot__label {
+  grid-column: 10 / span 6;
+  margin-top: 96px;
+  text-align: center;
+}
+
+.foot__addr {
+  grid-column: 10 / span 6;
+  margin-top: 137px;
+  text-align: center;
+}
+
+.foot__mail {
+  grid-column: 17 / span 8;
+  margin-top: 59px;
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — the source switches to an 8-column grid
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  :root {
+    --cols: 8;
+    --gap: 11px;
+    --pad: 5.897vw;      /* 23px @390 */
+    --pad-inset: 8.46vw; /* 33px @390 */
+    --header-h: 51px;
+  }
+
+  /* The source header retracts while scrolling down and returns on scroll up. */
+.masthead.is-hidden {
+  transform: translateY(-100%);
+}
+
+.masthead__logo {
+    width: 76px;
+    height: 43px;
+    margin-top: 4px;
+  }
+
+  .sec > .sec__bg--inset {
+    inset: 10px 2.56vw;
+  }
+
+  .t-hero { font-size: 10.7179vw; }  /* 41.8px @390 */
+  .t-h1   { font-size: 7.7415vw; }   /* 30.192px */
+  .t-h2   { font-size: 6.9624vw; }   /* 27.1536px */
+  .t-h3   { font-size: 5.924vw; }    /* 23.1024px */
+  .t-h4   { font-size: 4.8849vw; }   /* 19.0512px */
+
+  .foot { height: 251px; }
+  .foot__mark { margin-top: 9px; }
+  .foot__mark img { width: 59px; height: 59px; }
+  .foot__label { grid-column: 1 / span 8; margin-top: 78px; }
+  .foot__addr { grid-column: 1 / span 8; margin-top: 119px; }
+  .foot__name { grid-column: 1 / span 8; margin-top: 176px; text-align: center; }
+  .foot__mail { grid-column: 1 / span 8; margin-top: 214px; text-align: center; }
+}

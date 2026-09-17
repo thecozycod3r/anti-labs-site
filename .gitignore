@@ -1,0 +1,6 @@
+# QA artefacts from the replication pass — measurements, diffs, screenshots.
+# Kept locally, not worth 38MB in the repo. image-credits.json is force-added.
+reference/
+
+.DS_Store
+.playwright-mcp/

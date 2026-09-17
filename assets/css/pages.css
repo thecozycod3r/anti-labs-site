@@ -1,0 +1,548 @@
+/* ==========================================================================
+   Anti Motion / Anti Dote — new pages.
+   Same 24-column grid, type scale and colour language as the replicated
+   pages, but with a fluid vertical rhythm rather than pinned pixel offsets.
+   ========================================================================== */
+
+:root {
+  --bleed: clamp(72px, 9vw, 150px);
+}
+
+.p-sec {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gap);
+  padding-inline: var(--pad);
+  padding-block: var(--bleed);
+}
+
+.p-sec > * {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.p-hero {
+  padding-block: 0;
+  min-height: clamp(560px, 92vh, 940px);
+  align-content: end;
+  padding-bottom: clamp(48px, 7vh, 96px);
+  overflow: hidden;
+}
+
+.p-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.p-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* legibility wash: dark at the bottom where the type sits */
+.p-hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(14, 13, 12, 0.94) 4%, rgba(14, 13, 12, 0.35) 46%, rgba(14, 13, 12, 0.55) 100%);
+}
+
+.p-hero__eyebrow {
+  grid-column: 1 / span 12;
+  position: relative;
+  z-index: 2;
+  /* the display face has deep ascenders at this size; clear them */
+  margin-bottom: clamp(18px, 3.2vw, 46px);
+}
+
+.p-hero__title {
+  grid-column: 1 / span 20;
+  font-size: clamp(56px, 11vw, 158px);
+  line-height: 1.1;
+}
+
+.p-hero__title em {
+  color: var(--red);
+}
+
+.p-hero__lede {
+  grid-column: 14 / span 10;
+  margin-top: 26px;
+}
+
+.p-hero__cue {
+  grid-column: 1 / span 6;
+  margin-top: 26px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* --------------------------------------------------------------------------
+   Intro — statement left, mono columns right
+   -------------------------------------------------------------------------- */
+
+.p-intro__eyebrow {
+  grid-column: 1 / span 10;
+  margin-bottom: 18px;
+}
+
+.p-intro__title {
+  grid-column: 1 / span 12;
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.3;
+}
+
+.p-intro__body {
+  grid-column: 15 / span 10;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  align-self: end;
+}
+
+.p-intro__body p {
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+/* stat row under the intro */
+.p-stats {
+  grid-column: 1 / span 24;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+  margin-top: clamp(48px, 6vw, 92px);
+  border-top: 1px solid rgba(240, 240, 240, 0.22);
+}
+
+.p-stat {
+  padding-top: 20px;
+  border-right: 1px solid rgba(240, 240, 240, 0.12);
+  padding-right: 18px;
+}
+
+.p-stat:last-child { border-right: 0; }
+
+.p-stat__value {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.p-stat__label {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* --------------------------------------------------------------------------
+   Spec block — accordion with the signature offset image + colour plate
+   -------------------------------------------------------------------------- */
+
+/* Explicit rows: the copy column stacks in column 2 while the media spans
+   all three rows alongside it. Without this the browser auto-places the
+   accordion into a fourth row, below the image. */
+.p-spec__eyebrow {
+  grid-column: 2 / span 11;
+  grid-row: 1;
+  align-self: start;
+  margin-bottom: 16px;
+}
+
+.p-spec__title {
+  grid-column: 2 / span 11;
+  grid-row: 2;
+  align-self: start;
+  margin-bottom: clamp(36px, 4vw, 64px);
+}
+
+.p-spec__acc {
+  grid-column: 2 / span 11;
+  grid-row: 3;
+  align-self: start;
+}
+
+.p-spec__media {
+  grid-column: 14 / span 10;
+  grid-row: 1 / span 3;
+  position: relative;
+  align-self: start;
+  margin-top: clamp(20px, 3vw, 54px);
+}
+
+.p-spec__plate {
+  position: absolute;
+  inset: -34px auto auto -46px;
+  width: 100%;
+  height: 100%;
+  background: var(--blue);
+}
+
+.p-spec__media img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   Full-bleed gallery strip
+   -------------------------------------------------------------------------- */
+
+.p-strip {
+  display: flex;
+  gap: 0;
+  padding: 0;
+  height: clamp(220px, 29vw, 420px);
+  overflow: hidden;
+}
+
+/* cells (figure > img + caption) are styled in motion.css */
+.p-strip figure {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Split feature — image one side, copy the other
+   -------------------------------------------------------------------------- */
+
+.p-split__media {
+  grid-column: 1 / span 12;
+  align-self: center;
+}
+
+.p-split__media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.p-split__body {
+  grid-column: 15 / span 10;
+  align-self: center;
+}
+
+.p-split--flip .p-split__media { grid-column: 13 / span 12; }
+.p-split--flip .p-split__body  { grid-column: 1 / span 10; }
+
+.p-split__eyebrow { margin-bottom: 16px; }
+
+.p-split__title {
+  font-size: clamp(26px, 3vw, 44px);
+  line-height: 1.3;
+  margin-bottom: 22px;
+}
+
+.p-split__body p + p { margin-top: 18px; }
+
+.p-split__list {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(240, 240, 240, 0.22);
+}
+
+.p-split__list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.14);
+  font-family: var(--mono);
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.p-split__list b {
+  font-weight: 400;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Menu list (Anti Dote)
+   -------------------------------------------------------------------------- */
+
+.p-menu__eyebrow { grid-column: 1 / span 12; margin-bottom: 16px; }
+.p-menu__title   { grid-column: 1 / span 14; margin-bottom: clamp(32px, 4vw, 56px); }
+
+.p-menu__list {
+  grid-column: 1 / span 24;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: clamp(40px, 6vw, 110px);
+}
+
+.p-menu__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.16);
+  transition: border-color 0.25s ease;
+}
+
+.p-menu__row:hover {
+  border-bottom-color: var(--red);
+}
+
+.p-menu__name {
+  font-family: var(--display);
+  font-size: clamp(15px, 1.35vw, 20px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.p-menu__note {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 18px;
+  color: rgba(240, 240, 240, 0.62);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.p-menu__price {
+  font-family: var(--mono);
+  font-size: 13.272px;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Visit / hours panel
+   -------------------------------------------------------------------------- */
+
+.p-visit__eyebrow { grid-column: 1 / span 12; margin-bottom: 16px; }
+.p-visit__title   { grid-column: 1 / span 12; margin-bottom: clamp(30px, 3.5vw, 52px); }
+
+.p-visit__hours {
+  grid-column: 1 / span 11;
+  align-self: start;
+  align-content: start;
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 28px;
+  row-gap: 0;
+  border-top: 1px solid rgba(240, 240, 240, 0.22);
+}
+
+.p-visit__hours dt,
+.p-visit__hours dd {
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.14);
+  font-family: var(--mono);
+  font-size: 13.272px;
+  line-height: 19.908px;
+  margin: 0;
+}
+
+.p-visit__hours dt {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+}
+
+.p-visit__hours dd { text-align: right; }
+
+.p-visit__media {
+  grid-column: 14 / span 11;
+  align-self: start;
+}
+
+.p-visit__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   Closing call to action
+   -------------------------------------------------------------------------- */
+
+.p-cta {
+  text-align: center;
+  padding-block: clamp(90px, 12vw, 190px);
+}
+
+.p-cta__eyebrow { grid-column: 1 / span 24; margin-bottom: 20px; }
+
+.p-cta__title {
+  grid-column: 4 / span 18;
+  font-size: clamp(34px, 5.2vw, 80px);
+  line-height: 1.32;
+}
+
+.p-cta__title em { color: var(--red); }
+
+.p-cta__actions {
+  grid-column: 1 / span 24;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .p-hero__title   { grid-column: 1 / span 8; }
+  .p-hero__eyebrow { grid-column: 1 / span 8; }
+  .p-hero__lede    { grid-column: 1 / span 8; }
+  .p-hero__cue     { grid-column: 1 / span 8; }
+
+  .p-intro__eyebrow,
+  .p-intro__title,
+  .p-intro__body { grid-column: 1 / span 8; }
+  .p-intro__body { margin-top: 28px; }
+
+  .p-stats {
+    grid-column: 1 / span 8;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 24px;
+  }
+
+  .p-stat:nth-child(2n) { border-right: 0; }
+
+  .p-spec__eyebrow { grid-column: 1 / span 8; grid-row: 2; }
+  .p-spec__title   { grid-column: 1 / span 8; grid-row: 3; }
+  .p-spec__acc     { grid-column: 1 / span 8; grid-row: 4; }
+
+  .p-spec__media {
+    grid-column: 2 / span 6;
+    grid-row: 1;
+    margin-top: 0;
+    margin-bottom: 40px;
+  }
+
+  .p-spec__plate { inset: -18px auto auto -20px; }
+
+  .p-strip { height: 210px; }
+
+  .p-split__media,
+  .p-split__body,
+  .p-split--flip .p-split__media,
+  .p-split--flip .p-split__body { grid-column: 1 / span 8; }
+
+  .p-split__body { margin-top: 28px; }
+
+  .p-menu__eyebrow,
+  .p-menu__title,
+  .p-menu__list { grid-column: 1 / span 8; }
+
+  .p-menu__list { grid-template-columns: 1fr; }
+
+  .p-visit__eyebrow,
+  .p-visit__title,
+  .p-visit__hours,
+  .p-visit__media { grid-column: 1 / span 8; }
+
+  .p-visit__media { margin-top: 34px; }
+
+  .p-cta__title { grid-column: 1 / span 8; }
+  .p-cta__eyebrow, .p-cta__actions { grid-column: 1 / span 8; }
+}
+
+/* --------------------------------------------------------------------------
+   Contact form (shared with the Anti Light page's field styling)
+   -------------------------------------------------------------------------- */
+
+.p-form__eyebrow { grid-column: 1 / span 12; margin-bottom: 16px; }
+.p-form__title   { grid-column: 1 / span 14; margin-bottom: clamp(30px, 3.5vw, 52px); }
+.p-form         { grid-column: 1 / span 12; }
+.p-form__media  { grid-column: 15 / span 10; align-self: start; }
+
+.p-form__media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.p-field { margin-bottom: 23px; }
+
+.p-field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--display);
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.p-field__req {
+  font-family: var(--mono);
+  font-size: 13.272px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(240, 240, 240, 0.55);
+}
+
+.p-field__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+}
+
+.p-field input,
+.p-field textarea,
+.p-field select {
+  width: 100%;
+  height: 40px;
+  padding: 0 0 6px;
+  border: 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.28);
+  background: transparent;
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.25s ease;
+}
+
+.p-field select { appearance: none; cursor: pointer; }
+.p-field select option { background: var(--ink); color: var(--paper); }
+
+.p-field textarea { height: 110px; resize: vertical; }
+
+.p-field input:focus,
+.p-field textarea:focus,
+.p-field select:focus { border-bottom-color: var(--red); }
+
+.p-form button { margin-top: 20px; }
+
+@media (max-width: 767px) {
+  .p-form__eyebrow,
+  .p-form__title,
+  .p-form,
+  .p-form__media { grid-column: 1 / span 8; }
+  .p-form__media { margin-top: 34px; }
+  .p-field__row { grid-template-columns: 1fr; }
+}

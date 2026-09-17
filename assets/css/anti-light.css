@@ -1,0 +1,441 @@
+/* ==========================================================================
+   Anti Light — section metrics measured off the source at 1440 / 390.
+   Every child of a .sec sits in grid row 1 and is placed vertically with
+   margin-top, which reproduces the source's overlapping blocks exactly
+   while the columns stay fluid.
+   ========================================================================== */
+
+/* An absolutely-positioned child of a grid container is sized against its
+   GRID AREA when it has a grid placement — so the background layer must be
+   excluded from this rule, or it stretches to the row's content height. */
+.sec > *:not(.sec__bg) {
+  grid-row: 1;
+  align-self: start;
+}
+
+/* --- 1. Hero ------------------------------------------------------------- */
+
+.s-hero {
+  height: 744px;
+}
+
+.s-hero__eye {
+  grid-column: 9 / span 8;
+  margin-top: 215px;
+  width: 100%;
+  height: 191px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.s-hero__title {
+  grid-column: 8 / span 10;
+  margin-top: 377px;
+  text-align: center;
+}
+
+.s-hero__sub {
+  grid-column: 5 / span 16;
+  margin-top: 562px;
+  text-align: center;
+}
+
+.s-hero__cta {
+  grid-column: 11 / span 4;
+  margin-top: 619px;
+}
+
+/* --- 2. About ------------------------------------------------------------ */
+
+.s-about {
+  height: 697px;
+}
+
+.s-about__title {
+  grid-column: 1 / span 11;
+  margin-top: 113px;
+}
+
+.s-about__p1 {
+  grid-column: 15 / span 8;
+  margin-top: 113px;
+}
+
+.s-about__p2 {
+  grid-column: 17 / span 8;
+  margin-top: 270px;
+}
+
+.s-about__p3 {
+  grid-column: 15 / span 8;
+  margin-top: 471px;
+}
+
+/* --- 3. Spacer ----------------------------------------------------------- */
+
+.s-spacer {
+  height: 32px;
+}
+
+/* --- 4. Studio features -------------------------------------------------- */
+
+.s-features {
+  height: 931px;
+}
+
+.s-features__title {
+  grid-column: 2 / span 11;
+  margin-top: 48px;
+}
+
+.s-features__acc {
+  grid-column: 2 / span 11;
+  margin-top: 170px;
+}
+
+.s-features__plate {
+  grid-column: 14 / span 9;
+  margin-top: 47px;
+  height: 753px;
+  background: var(--blue);
+}
+
+.s-features__img {
+  grid-column: 15 / span 9;
+  margin-top: 88px;
+  width: 100%;
+  height: 755px;
+  object-fit: cover;
+}
+
+/* Feature accordion: Boldonse titles, 73px rows */
+.acc--features .acc__btn {
+  padding: 21px 0;
+  font-family: var(--display);
+  font-size: 1.5217vw;
+  line-height: 30.186px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Spacing lives on the panel's children, never on the clipping box —
+   padding there would keep a collapsed panel from reaching zero height. */
+.acc--features .acc__panel > div > :first-child {
+  margin-top: 14px;
+}
+
+.acc--features .acc__panel > div > :last-child {
+  margin-bottom: 47px;
+}
+
+.acc--features .acc__panel ul {
+  margin: 0 0 41px;
+  padding-left: 26px;
+  list-style: none;
+}
+
+.acc--features .acc__panel li {
+  position: relative;
+  margin-bottom: 7px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--features .acc__panel li::before {
+  content: "\2022";
+  position: absolute;
+  left: -16px;
+}
+
+.acc--features .acc__lede,
+.acc--features .acc__foot {
+  padding-top: 8px;   /* padding, not margin — margins collapse against the list above */
+  margin-bottom: 22px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--features .acc__fees {
+  margin-bottom: 15px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+  text-transform: uppercase;
+}
+
+/* --- 5. Booking ---------------------------------------------------------- */
+
+.s-booking {
+  height: 951px;
+}
+
+.s-booking__title {
+  grid-column: 14 / span 10;
+  margin-top: 95px;
+  text-align: center;
+}
+
+.s-booking__card {
+  grid-column: 14 / span 10;
+  margin-top: 176px;
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 48px 40px;
+  background: #fff;
+  color: #111;
+  text-align: center;
+}
+
+.s-booking__card h3 {
+  font-family: var(--grotesk);
+  font-size: 26px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.s-booking__card p {
+  max-width: 34ch;
+  font-family: var(--grotesk);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.s-booking__card .btn-solid {
+  margin-top: 6px;
+  padding: 14px 22px;
+  background: #111;
+  color: #fff;
+  font-family: var(--grotesk);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.s-booking__card .credit {
+  margin-top: auto;
+  font-family: var(--grotesk);
+  font-size: 13px;
+  color: #444;
+}
+
+/* --- 6. Gallery ---------------------------------------------------------- */
+
+.s-gallery {
+  display: flex;
+  height: 414px;
+  padding: 0;
+  gap: 0;   /* the strip is edge-to-edge; drop the inherited grid column-gap */
+}
+
+.s-gallery img {
+  flex: 0 0 auto;
+  height: 412px;
+  margin-top: 1px;
+  object-fit: cover;
+}
+
+/* DOM order is the mobile order; desktop re-orders the strip to
+   207 / 342 / 342 / 342 / 207 exactly as the source does. */
+.s-gallery img:nth-child(1) { order: 3; width: 23.75%; }
+.s-gallery img:nth-child(2) { order: 1; width: 14.375%; }
+.s-gallery img:nth-child(3) { order: 5; width: 14.375%; }
+.s-gallery img:nth-child(4) { order: 2; width: 23.75%; }
+.s-gallery img:nth-child(5) { order: 4; width: 23.75%; }
+
+/* Squarespace focal points, read off the source's computed object-position. */
+.s-about .sec__bg img {
+  object-position: 47.1197% 100%;
+}
+
+.s-gallery img:nth-child(2) {
+  object-position: 72.1223% 60.8038%;
+}
+
+.s-gallery img:nth-child(3) {
+  object-position: 29.5621% 55.2034%;
+}
+
+/* --- 7. FAQ -------------------------------------------------------------- */
+
+.s-faq {
+  height: 936px;
+}
+
+.s-faq__title {
+  grid-column: 5 / span 16;
+  margin-top: 95px;
+  text-align: center;
+}
+
+.s-faq__acc {
+  grid-column: 8 / span 10;
+  margin-top: 177px;
+}
+
+.acc--faq .acc__item {
+  border-top: 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.35);
+}
+
+.acc--faq .acc__btn {
+  padding: 15px 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+.acc--faq .acc__panel > div {
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--faq .acc__panel > div > :first-child { margin-top: 4px; }
+.acc--faq .acc__panel > div > :last-child { margin-bottom: 20px; }
+
+.acc--faq .acc__panel p + p {
+  margin-top: 14px;
+}
+
+/* --- 8. Contact ---------------------------------------------------------- */
+
+.s-contact {
+  height: 717px;
+}
+
+.s-contact__title {
+  grid-column: 1 / span 14;
+  margin-top: 95px;
+}
+
+.s-contact__form {
+  grid-column: 1 / span 14;
+  margin-top: 176px;
+}
+
+.s-contact__img {
+  grid-column: 18 / span 7;
+  margin-top: 95px;
+  width: 100%;
+  height: 527px;
+  object-fit: cover;
+}
+
+.field {
+  margin-bottom: 23px;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--display);
+  font-size: 1.5217vw;
+  line-height: 30.186px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.field__req {
+  font-family: var(--mono);
+  font-size: 13.272px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(240, 240, 240, 0.55);
+}
+
+.field__sublabel {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.field__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  height: 35px;
+  padding: 0 0 6px;
+  border: 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.28);
+  background: transparent;
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+  outline: none;
+}
+
+.field textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--paper);
+}
+
+.s-contact__form .btn-outline--paper {
+  margin-top: 21px;
+}
+
+/* ==========================================================================
+   Mobile (8-column grid, measured at 390)
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .s-hero { height: 678px; }
+  .s-hero__eye { grid-column: 2 / span 6; margin-top: 214px; height: 164px; }
+  .s-hero__title { grid-column: 2 / span 6; margin-top: 363px; text-align: right; }
+  .s-hero__sub { grid-column: 2 / span 6; margin-top: 494px; }
+  .s-hero__cta { grid-column: 2 / span 6; margin-top: 551px; }
+
+  .s-about { height: 664px; }
+  .s-about__title { grid-column: 1 / span 8; margin-top: 45px; }
+  .s-about__p1 { grid-column: 1 / span 8; margin-top: 177px; }
+  .s-about__p2 { grid-column: 1 / span 8; margin-top: 283px; }
+  .s-about__p3 { grid-column: 1 / span 8; margin-top: 470px; }
+
+  .s-spacer { height: 26px; }
+
+  .s-features { height: 1310px; }
+  .s-features__title { grid-column: 1 / span 8; margin-top: 27px; }
+  .s-features__plate { grid-column: 2 / span 5; margin-top: 67px; height: 304px; }
+  .s-features__img { grid-column: 3 / span 5; margin-top: 97px; height: 304px; }
+  .s-features__acc { grid-column: 1 / span 8; margin-top: 483px; }
+  .acc--features .acc__btn { padding: 19px 0; font-size: 4.8849vw; line-height: 26px; }
+
+  .s-booking { height: 940px; }
+  .s-booking__title { grid-column: 1 / span 8; margin-top: 68px; }
+  .s-booking__card { grid-column: 1 / span 8; margin-top: 130px; min-height: 620px; padding: 40px 24px; }
+
+  .s-gallery { flex-wrap: wrap; height: 794px; }
+  .s-gallery img { height: 264px; margin-top: 1px; order: 0; }
+  .s-gallery img:nth-child(1),
+  .s-gallery img:nth-child(2),
+  .s-gallery img:nth-child(4),
+  .s-gallery img:nth-child(5) { width: 50%; }
+  .s-gallery img:nth-child(3) { width: 100%; }
+
+  .s-faq { height: 1029px; }
+  .s-faq__title { grid-column: 1 / span 8; margin-top: 71px; }
+  .s-faq__acc { grid-column: 1 / span 8; margin-top: 160px; }
+
+  .s-contact { height: 1150px; }
+  .s-contact__title { grid-column: 1 / span 8; margin-top: 56px; }
+  .s-contact__form { grid-column: 1 / span 8; margin-top: 120px; }
+  .s-contact__img { grid-column: 1 / span 8; margin-top: 616px; height: 479px; }
+  .field__row { grid-template-columns: 1fr; }
+  .field__label { font-size: 4.8849vw; line-height: 26px; }
+
+}

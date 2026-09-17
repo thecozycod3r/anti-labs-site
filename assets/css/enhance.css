@@ -1,0 +1,321 @@
+/* ==========================================================================
+   Enhancements layered on top of the replicated base.
+   Kept in its own file so the 1:1 layout stylesheets stay untouched.
+   ========================================================================== */
+
+::selection {
+  background: var(--red);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Navigation — the source ships an empty nav; with four pages it needs one.
+   Logo stays centred; the studio links sit either side of it.
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  column-gap: var(--gap);
+  padding-inline: var(--pad);
+}
+
+.masthead__tag {
+  display: flex;
+  align-items: center;
+  height: var(--header-h);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 240, 0.45);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+  height: var(--header-h);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.nav__link {
+  position: relative;
+  padding-bottom: 4px;
+  color: var(--paper);
+  opacity: 0.62;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav__link:hover,
+.nav__link:focus-visible {
+  opacity: 1;
+}
+
+.nav__link:hover::after,
+.nav__link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav__link[aria-current="page"] {
+  opacity: 1;
+  color: var(--blue);
+}
+
+.nav__toggle {
+  display: none;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Section eyebrow — mono index label above a display heading
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.eyebrow::before {
+  content: attr(data-index) " \2014\00a0";
+  color: var(--red);
+}
+
+/* an eyebrow without an index prints no dash */
+.eyebrow:not([data-index])::before {
+  content: none;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal--delay-1 { transition-delay: 0.08s; }
+.reveal--delay-2 { transition-delay: 0.16s; }
+.reveal--delay-3 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Image treatment — a restrained lift on hover
+   -------------------------------------------------------------------------- */
+
+.img-frame {
+  overflow: hidden;
+}
+
+.img-frame img {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.6s ease;
+}
+
+.img-frame:hover img {
+  transform: scale(1.035);
+}
+
+/* --------------------------------------------------------------------------
+   Marquee — slow mono ticker, set between sections
+   -------------------------------------------------------------------------- */
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  padding: 0;
+  border-top: 1px solid rgba(240, 240, 240, 0.18);
+  border-bottom: 1px solid rgba(240, 240, 240, 0.18);
+  user-select: none;
+}
+
+.marquee__track {
+  display: flex;
+  flex: none;
+  gap: 48px;
+  padding: 18px 24px 18px 0;
+  animation: marquee-slide 38s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  font-family: var(--display);
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--paper);
+}
+
+.marquee__item::after {
+  content: "\2022";
+  color: var(--red);
+}
+
+@keyframes marquee-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Accordion polish
+   -------------------------------------------------------------------------- */
+
+.acc__btn {
+  transition: color 0.25s ease;
+}
+
+.acc__btn:hover {
+  color: var(--blue);
+}
+
+.acc__item {
+  transition: border-color 0.25s ease;
+}
+
+.acc__item:hover {
+  border-top-color: rgba(187, 17, 34, 0.9);
+}
+
+.acc--faq .acc__item:hover,
+.acc--spaces .acc__item:hover {
+  border-bottom-color: rgba(187, 17, 34, 0.9);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile nav — full-screen overlay
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .masthead {
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  /* the tag is removed from the grid on mobile, so place the remaining
+     children explicitly or the logo drifts out of the centre column */
+  .masthead__tag { display: none; }
+
+  .masthead > a { grid-column: 2; }
+
+  .nav__toggle {
+    display: inline-flex;
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    height: 100dvh;
+    background: var(--ink);
+    font-size: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  body.nav-open .nav {
+    z-index: 40;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.nav-open .masthead {
+    z-index: 50;
+  }
+
+  /* the overlay is a child of the masthead, so the logo and the toggle
+     need to be lifted above it explicitly */
+  body.nav-open .masthead > a,
+  body.nav-open .nav__toggle {
+    position: relative;
+    z-index: 45;
+  }
+
+  .marquee__item {
+    font-size: 15px;
+  }
+
+  .marquee__track {
+    gap: 30px;
+    padding: 14px 18px 14px 0;
+  }
+
+  .marquee__item { gap: 30px; }
+}
