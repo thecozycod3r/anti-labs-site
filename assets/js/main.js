@@ -46,13 +46,46 @@ document.querySelectorAll('.acc').forEach(function (list) {
   }, { passive: true });
 })();
 
-/* Background video: Chrome only honours muted autoplay when the property
-   (not just the attribute) is set before play() is called. */
-document.querySelectorAll('.sec__bg video').forEach(function (v) {
+/* Background video.
+   Two things bite here. Browsers only honour muted autoplay when the *property*
+   is set (not just the attribute), and Safari still refuses when Low Power Mode
+   is on or the site's auto-play setting says no — in which case it paints its
+   own play button over the poster. So: pick a source sized for the viewport,
+   set muted properly, then retry on the first user gesture if it was refused. */
+document.querySelectorAll('video.bg-video, .sec__bg video').forEach(function (v) {
+  var mobile = window.matchMedia('(max-width: 767px)').matches;
+  var src = v.getAttribute(mobile ? 'data-src-mobile' : 'data-src-desktop');
+  if (src && !v.getAttribute('src')) v.setAttribute('src', src);
+
   v.muted = true;
   v.defaultMuted = true;
-  var p = v.play();
-  if (p && p.catch) p.catch(function () { /* autoplay refused; poster frame stands in */ });
+  v.playsInline = true;
+  v.setAttribute('muted', '');
+
+  function attempt() {
+    var p = v.play();
+    if (p && p.catch) {
+      p.catch(function () {
+        // refused — wait for any gesture, then try once more
+        ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (evt) {
+          window.addEventListener(evt, retry, { once: true, passive: true });
+        });
+      });
+    }
+  }
+
+  function retry() {
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* poster frame stands in */ });
+  }
+
+  if (v.readyState >= 2) attempt();
+  else v.addEventListener('loadeddata', attempt, { once: true });
+
+  // a backgrounded tab pauses it; resume when the page is visible again
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && v.paused) retry();
+  });
 });
 
 /* Contact form: no backend here, so acknowledge in place. */

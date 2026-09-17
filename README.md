@@ -111,6 +111,45 @@ Accessibility and safety
 - The replicas use reveals and wipes only; the DOM-splitting treatment is kept to
   the two new pages so the verified markup is untouched.
 
+## Mobile
+
+Audited at 390 / 360 / 320 px. Zero horizontal overflow, zero tap targets under
+44px on all four pages.
+
+**Payload.** The home page was shipping 12.4 MB. Now:
+
+| | before | after |
+|---|---|---|
+| Mobile (390px) | 12.4 MB | **671 KB** |
+| Desktop (1440px) | 12.4 MB | **1.39 MB** |
+
+- Every photo has 480w / 960w variants and a `srcset` + `sizes` hint, so a phone
+  fetches roughly 6% of the original bytes. Below-fold images are `loading="lazy"`.
+- The background video was a 5.5 MB 1080p file at 3 Mbps. Re-encoded to 915 KB
+  for desktop and a 960px, 298 KB version for phones, picked by viewport in JS,
+  with a 38 KB poster frame behind it.
+
+**Autoplay.** Browsers only honour muted autoplay when the *property* is set, not
+just the attribute — and Safari still refuses under Low Power Mode or a per-site
+auto-play setting, painting its own play button over the poster. The video now
+sets the property explicitly and retries on the first user gesture, so it starts
+in the cases where a plain `autoplay` attribute silently fails.
+
+**Fixes the audit turned up that weren't visible by eye:**
+
+- `.acc--features` / `.acc--faq` lived in `anti-light.css`, which Anti Motion and
+  Anti Dote don't load — their accordions were rendering unstyled, with 23px tap
+  targets. Moved to the shared sheet.
+- The skip link sat at `left: -15000px`, which still counts toward `scrollWidth`
+  and registered as phantom horizontal overflow. Uses the clip technique now.
+- `t-fit` (nowrap, there to stop a sub-pixel wrap on desktop) forced long
+  headings wider than a phone screen. Unset below 768px — the source wraps them
+  there anyway.
+- The manifesto scrim's -110px inset ran past a 390px viewport.
+- The open accordion's index-shift pushed its row 26px past the right edge.
+
+Desktop replicas re-verified after all of it: 5683px / 3942px exact.
+
 ## Content status — please read
 
 The two new pages use **real copy** where it exists: the Anti Motion and Anti Dote

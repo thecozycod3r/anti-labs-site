@@ -74,13 +74,24 @@ h4 {
   letter-spacing: -0.02em;
 }
 
+/* Off-screen positioning (left: -15000px) still counts toward scrollWidth and
+   showed up as phantom horizontal overflow on phones. Clip instead. */
 .skip {
   position: absolute;
-  left: -15000px;
-  top: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .skip:focus {
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip-path: none;
   left: 0;
   z-index: 100;
   padding: 15px 19.5px;
@@ -348,6 +359,92 @@ em {
 }
 
 /* --------------------------------------------------------------------------
+   Accordion variants — shared by every page.
+   These previously lived in anti-light.css, so Anti Motion and Anti Dote (which
+   do not load that sheet) rendered their accordions unstyled: no padding, wrong
+   face, and 23px tap targets.
+   -------------------------------------------------------------------------- */
+
+/* Feature accordion: Boldonse titles, 73px rows */
+.acc--features .acc__btn {
+  padding: 21px 0;
+  font-family: var(--display);
+  font-size: 1.5217vw;
+  line-height: 30.186px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Spacing lives on the panel's children, never on the clipping box —
+   padding there would keep a collapsed panel from reaching zero height. */
+.acc--features .acc__panel > div > :first-child {
+  margin-top: 14px;
+}
+
+.acc--features .acc__panel > div > :last-child {
+  margin-bottom: 47px;
+}
+
+.acc--features .acc__panel ul {
+  margin: 0 0 41px;
+  padding-left: 26px;
+  list-style: none;
+}
+
+.acc--features .acc__panel li {
+  position: relative;
+  margin-bottom: 7px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--features .acc__panel li::before {
+  content: "\2022";
+  position: absolute;
+  left: -16px;
+}
+
+.acc--features .acc__lede,
+.acc--features .acc__foot {
+  padding-top: 8px;   /* padding, not margin — margins collapse against the list above */
+  margin-bottom: 22px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--features .acc__fees {
+  margin-bottom: 15px;
+  font-size: 13.272px;
+  line-height: 19.908px;
+  text-transform: uppercase;
+}
+
+.acc--faq .acc__item {
+  border-top: 0;
+  border-bottom: 1px solid rgba(240, 240, 240, 0.35);
+}
+
+.acc--faq .acc__btn {
+  padding: 15px 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 22.5px;
+}
+
+.acc--faq .acc__panel > div {
+  font-size: 13.272px;
+  line-height: 19.908px;
+}
+
+.acc--faq .acc__panel > div > :first-child { margin-top: 4px; }
+.acc--faq .acc__panel > div > :last-child { margin-bottom: 20px; }
+
+.acc--faq .acc__panel p + p {
+  margin-top: 14px;
+}
+
+
+/* --------------------------------------------------------------------------
    Footer — identical on both pages
    -------------------------------------------------------------------------- */
 
@@ -425,6 +522,18 @@ em {
   .t-h2   { font-size: 6.9624vw; }   /* 27.1536px */
   .t-h3   { font-size: 5.924vw; }    /* 23.1024px */
   .t-h4   { font-size: 4.8849vw; }   /* 19.0512px */
+
+  /* `t-fit` exists to stop a sub-pixel wrap on desktop. On a phone the same
+     nowrap forces long headings wider than the screen — and the source wraps
+     them here anyway — so let them break. */
+  .t-fit { white-space: normal; }
+
+  .acc--features .acc__btn { padding: 19px 0; font-size: 4.8849vw; line-height: 26px; }
+  .acc--faq .acc__btn { padding: 16px 0; }
+
+  /* comfortable targets in the replicated contact form too */
+  .field input { height: 48px; }
+  .field textarea { height: 130px; }
 
   .foot { height: 251px; }
   .foot__mark { margin-top: 9px; }

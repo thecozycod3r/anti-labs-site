@@ -772,3 +772,65 @@ body.has-reticle select {
     rgba(14, 13, 12, 0.72) 100%
   );
 }
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* The scrim's -110px horizontal inset runs past a 390px viewport. */
+  .h-manifesto__text::before { inset: -40px -24px; }
+
+  /* The open accordion's index-shift pushed its row 26px right, past the
+     viewport edge. There is no hover on touch, so drop the shift entirely. */
+  .acc__item:hover .acc__btn,
+  .acc__item.is-open .acc__btn,
+  .acc__item:hover .acc__icon,
+  .acc__item.is-open .acc__icon {
+    transform: none;
+  }
+
+  .acc__btn::before { display: none; }
+
+  /* comfortable touch targets (44px minimum) */
+  .nav__link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding-inline: 8px;
+  }
+
+  .nav__toggle {
+    min-width: 48px;
+    justify-content: flex-end;
+  }
+
+  .btn-outline {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 24px;
+  }
+
+  .btn-rule {
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .foot__mail a,
+  .p-visit__hours a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding-block: 12px;
+  }
+
+  /* the marquee is decorative and its own overflow source; clip it hard */
+  .marquee { max-width: 100vw; overflow: hidden; }
+
+  /* the reticle is pointer-only — make sure nothing reserves space for it */
+  .cursor { display: none; }
+}

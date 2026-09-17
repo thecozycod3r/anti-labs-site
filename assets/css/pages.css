@@ -552,4 +552,8 @@
   .p-form__media { grid-column: 1 / span 8; }
   .p-form__media { margin-top: 34px; }
   .p-field__row { grid-template-columns: 1fr; }
+
+  .p-field input,
+  .p-field select { height: 48px; }
+  .p-field textarea { height: 130px; }
 }

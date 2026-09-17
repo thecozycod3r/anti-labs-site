@@ -108,60 +108,6 @@
   object-fit: cover;
 }
 
-/* Feature accordion: Boldonse titles, 73px rows */
-.acc--features .acc__btn {
-  padding: 21px 0;
-  font-family: var(--display);
-  font-size: 1.5217vw;
-  line-height: 30.186px;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
-
-/* Spacing lives on the panel's children, never on the clipping box —
-   padding there would keep a collapsed panel from reaching zero height. */
-.acc--features .acc__panel > div > :first-child {
-  margin-top: 14px;
-}
-
-.acc--features .acc__panel > div > :last-child {
-  margin-bottom: 47px;
-}
-
-.acc--features .acc__panel ul {
-  margin: 0 0 41px;
-  padding-left: 26px;
-  list-style: none;
-}
-
-.acc--features .acc__panel li {
-  position: relative;
-  margin-bottom: 7px;
-  font-size: 13.272px;
-  line-height: 19.908px;
-}
-
-.acc--features .acc__panel li::before {
-  content: "\2022";
-  position: absolute;
-  left: -16px;
-}
-
-.acc--features .acc__lede,
-.acc--features .acc__foot {
-  padding-top: 8px;   /* padding, not margin — margins collapse against the list above */
-  margin-bottom: 22px;
-  font-size: 13.272px;
-  line-height: 19.908px;
-}
-
-.acc--features .acc__fees {
-  margin-bottom: 15px;
-  font-size: 13.272px;
-  line-height: 19.908px;
-  text-transform: uppercase;
-}
-
 /* --- 5. Booking ---------------------------------------------------------- */
 
 .s-booking {
@@ -277,30 +223,6 @@
   margin-top: 177px;
 }
 
-.acc--faq .acc__item {
-  border-top: 0;
-  border-bottom: 1px solid rgba(240, 240, 240, 0.35);
-}
-
-.acc--faq .acc__btn {
-  padding: 15px 0;
-  font-family: var(--mono);
-  font-size: 15px;
-  line-height: 22.5px;
-}
-
-.acc--faq .acc__panel > div {
-  font-size: 13.272px;
-  line-height: 19.908px;
-}
-
-.acc--faq .acc__panel > div > :first-child { margin-top: 4px; }
-.acc--faq .acc__panel > div > :last-child { margin-bottom: 20px; }
-
-.acc--faq .acc__panel p + p {
-  margin-top: 14px;
-}
-
 /* --- 8. Contact ---------------------------------------------------------- */
 
 .s-contact {
@@ -413,7 +335,6 @@
   .s-features__plate { grid-column: 2 / span 5; margin-top: 67px; height: 304px; }
   .s-features__img { grid-column: 3 / span 5; margin-top: 97px; height: 304px; }
   .s-features__acc { grid-column: 1 / span 8; margin-top: 483px; }
-  .acc--features .acc__btn { padding: 19px 0; font-size: 4.8849vw; line-height: 26px; }
 
   .s-booking { height: 940px; }
   .s-booking__title { grid-column: 1 / span 8; margin-top: 68px; }
@@ -436,6 +357,8 @@
   .s-contact__form { grid-column: 1 / span 8; margin-top: 120px; }
   .s-contact__img { grid-column: 1 / span 8; margin-top: 616px; height: 479px; }
   .field__row { grid-template-columns: 1fr; }
+  .field input { height: 48px; }
+  .field textarea { height: 130px; }
   .field__label { font-size: 4.8849vw; line-height: 26px; }
 
 }
