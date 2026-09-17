@@ -76,7 +76,13 @@
       // anything already on screen at load animates immediately
       var r = el.getBoundingClientRect();
       if (r.top < window.innerHeight * 0.92 && r.bottom > 0) {
-        raf(function () { el.classList.add('is-in'); });
+        // on screen at load: animate in now. The chroma wordmark has to be
+        // focused here too — only the observer path used to do it, so a
+        // visitor who never scrolled saw the ghosts parked 14px apart.
+        raf(function () {
+          el.classList.add('is-in');
+          if (el.classList.contains('chroma')) focus(el);
+        });
       } else {
         io.observe(el);
       }
@@ -113,8 +119,11 @@
   bar.className = 'progress';
   document.body.appendChild(bar);
 
-  var parallax = [].slice.call(document.querySelectorAll('[data-parallax]'));
-  var floaters = [].slice.call(document.querySelectorAll('[data-float]'));
+  // on phones the layout flows, and drifting plates would collide with the
+  // copy stacked beneath them — parallax and idle float are desktop-only
+  var narrow = window.matchMedia('(max-width: 767px)').matches;
+  var parallax = narrow ? [] : [].slice.call(document.querySelectorAll('[data-parallax]'));
+  var floaters = narrow ? [] : [].slice.call(document.querySelectorAll('[data-float]'));
   var chroma = [].slice.call(document.querySelectorAll('.chroma'));
 
   /* Parallax and the idle float both want `transform`, so nothing writes it

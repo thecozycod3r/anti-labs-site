@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Mobile layout (< 768px) — loaded last on every page.
+
+   Desktop reproduces the live site with pinned heights and offsets. On a phone
+   that approach is brittle: any heading that wraps differently collides with
+   the copy below it, and fixed section heights let content spill into the next
+   section. So below 768px every section flows — auto height, natural rows —
+   and the compositions that matter (hero collage, manifesto overlay, image
+   plates) are rebuilt deliberately rather than inherited.
+
+   The !importants are intentional: they have to beat the per-element pinned
+   rules in anti-light.css / home.css without touching those sheets, so the
+   verified desktop layout stays exactly as it is.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  /* ---- 1. flow mode for every grid section ------------------------------ */
+
+  .sec {
+    height: auto !important;
+    padding-block: 56px;
+    row-gap: 18px;
+    align-content: start;
+  }
+
+  .sec > *:not(.sec__bg) {
+    grid-row: auto !important;
+    grid-column: 1 / -1 !important;
+    margin-top: 0 !important;
+  }
+
+  .hero-rule,
+  .s-spacer { display: none !important; }
+
+  /* ---- 2. footer — a centred stack on every page ------------------------ */
+
+  .foot {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 52px var(--pad) 44px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+    text-align: center;
+  }
+
+  /* home.css / anti-light.css pin children with align-self:start */
+  .foot > * { text-align: center !important; align-self: center !important; }
+  .foot__mark  { order: 1; }
+  .foot__name  { order: 2; font-size: 6.4vw !important; white-space: nowrap; }
+  .foot__label { display: none !important; }          /* repeats the name */
+  .foot__addr  { order: 3; max-width: 30ch; }
+  .foot__mail  { order: 4; }
+
+  /* ---- 3. HOME — hero collage, recomposed for a narrow screen ----------- */
+
+  .h-hero {
+    padding-top: calc(var(--header-h) + 34px);
+    padding-bottom: 44px;
+    row-gap: 12px;
+  }
+
+  .h-hero .h-hero__title,
+  .h-hero .h-hero__title2 {
+    font-size: 15.5vw !important;
+    line-height: 0.95;
+    white-space: nowrap;
+    position: relative;
+    z-index: 3;
+  }
+
+  .h-hero .h-hero__title  { order: 1; text-align: left; }
+
+  .h-hero .h-hero__img1 {
+    order: 2;
+    grid-column: 1 / span 4 !important;
+    height: 250px !important;
+  }
+
+  .h-hero .h-hero__img2 {
+    order: 3;
+    grid-column: 5 / span 4 !important;
+    height: 200px !important;
+    margin-top: 50px !important;   /* staggered against its neighbour */
+  }
+
+  .h-hero .h-hero__img3 {
+    order: 4;
+    grid-column: 2 / span 6 !important;
+    height: 170px !important;
+    margin-top: -30px !important;
+    position: relative;
+    z-index: 2;
+  }
+
+  .h-hero .h-hero__title2 {
+    order: 5;
+    text-align: right;
+    margin-top: -46px !important;  /* the wordmark bites into the eye plate */
+  }
+
+  .h-hero .h-hero__scroll {
+    order: 6;
+    text-align: center;
+    margin-top: 22px !important;
+  }
+
+  /* ---- 4. HOME — manifesto: statement stays laid over its photograph ---- */
+
+  .h-manifesto .h-manifesto__img-main,
+  .h-manifesto .h-manifesto__text {
+    grid-row: 1 !important;
+  }
+
+  .h-manifesto .h-manifesto__img-main {
+    height: 460px !important;
+  }
+
+  .h-manifesto .h-manifesto__text {
+    align-self: center;
+    padding-inline: 18px;
+    font-size: 5.4vw !important;
+    line-height: 1.52;
+  }
+
+  /* the desktop line breaks were set for a 564px measure */
+  .h-manifesto__text br { display: none; }
+
+  .h-manifesto__text::before { inset: -24px 0 !important; }
+
+  .h-manifesto .h-manifesto__img-side,
+  .h-manifesto .h-manifesto__img-cafe {
+    grid-row: 2 !important;
+    height: 210px !important;
+  }
+
+  .h-manifesto .h-manifesto__img-side { grid-column: 1 / span 4 !important; }
+  .h-manifesto .h-manifesto__img-cafe { grid-column: 5 / span 4 !important; margin-top: 36px !important; }
+
+  /* ---- 5. HOME — studio cards: title, image, tags, button --------------- */
+
+  .h-cards { row-gap: 14px; }
+
+  .h-cards .h-cards__title-a { order: 1; }
+  .h-cards .h-cards__img-a   { order: 2; height: 340px !important; }
+  .h-cards .h-cards__tag-a   { order: 3; }
+  .h-cards .h-cards__cta-a   { order: 4; }
+  .h-cards .h-cards__title-b { order: 5; margin-top: 44px !important; }
+  .h-cards .h-cards__img-b   { order: 6; height: 340px !important; }
+  .h-cards .h-cards__tag-b   { order: 7; }
+  .h-cards .h-cards__cta-b   { order: 8; }
+
+  .h-cards [class*="h-cards__title"] { font-size: 9vw !important; }
+  .h-cards [class*="h-cards__tag"] { font-size: 13px; }
+
+  /* ---- 6. HOME — the spaces --------------------------------------------- */
+
+  .h-spaces { padding-block: 72px; }
+  .h-spaces .h-spaces__title {
+    font-size: 12.5vw !important;
+    white-space: nowrap;
+    margin-bottom: 14px !important;
+  }
+
+  /* ---- 7. ANTI LIGHT --------------------------------------------------- */
+
+  .s-hero {
+    padding-top: calc(var(--header-h) + 40px);
+    padding-bottom: 60px;
+  }
+
+  .s-hero .s-hero__eye   { height: 230px !important; }
+  .s-hero .s-hero__title {
+    margin-top: -52px !important;  /* the wordmark sits on the lower edge of the plate */
+    text-align: center !important;
+    font-size: 13.5vw !important;
+    white-space: nowrap;
+  }
+  .s-hero .s-hero__sub   { text-align: center; }
+  .s-hero .s-hero__cta   { margin-top: 10px !important; }
+
+  .s-about { padding-block: 72px; row-gap: 22px; }
+  .s-about .s-about__title { font-size: 9.2vw !important; margin-bottom: 8px !important; }
+
+  /* the copy spans the full width here, so darken evenly rather than by column */
+  .s-about .sec__bg::after { background: rgba(14, 13, 12, 0.6); }
+
+  .s-features { row-gap: 22px; }
+  .s-features .s-features__title { order: 1; font-size: 9.2vw !important; }
+
+  /* the blue plate becomes an offset shadow on the photograph itself */
+  .s-features__plate { display: none !important; }
+  .s-features .s-features__img {
+    order: 2;
+    grid-column: 2 / -1 !important;
+    height: 380px !important;
+    margin: 16px 0 12px !important;
+    box-shadow: -16px -16px 0 var(--blue);
+    clip-path: none !important;   /* the reveal's clip would cut the plate shadow off */
+  }
+  .s-features .s-features__acc { order: 3; }
+
+  .s-booking { padding-block: 64px; }
+  .s-booking .s-booking__card {
+    min-height: 0 !important;
+    padding: 36px 22px;
+  }
+
+  .s-gallery {
+    padding: 0 !important;
+    row-gap: 0;
+  }
+
+  .s-faq .s-faq__title { font-size: 7.6vw !important; }
+
+  .s-contact .s-contact__img { height: 340px !important; margin-top: 28px !important; }
+
+  /* ---- 8. NEW PAGES ---------------------------------------------------- */
+
+  /* inline grid-column on the Anti Motion FAQ list */
+  .p-spec__acc { grid-column: 1 / -1 !important; }
+
+  /* gallery strip → a swipeable row */
+  .p-strip {
+    height: auto;
+    gap: 10px;
+    padding: 8px var(--pad) 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .p-strip::-webkit-scrollbar { display: none; }
+
+  .p-strip__cell,
+  .p-strip__cell:hover {
+    flex: 0 0 74%;
+    height: 380px;
+    scroll-snap-align: center;
+  }
+
+  .p-strip__cell img,
+  .p-strip:hover .p-strip__cell img,
+  .p-strip__cell:hover img {
+    filter: none;
+    transform: none;
+  }
+
+  .p-strip__cap {
+    opacity: 1;
+    transform: none;
+    text-shadow: 0 0 10px rgba(14, 13, 12, 0.9);
+  }
+
+  /* two-up stat grid: long values like "Downstairs" must fit one line */
+  .p-stat__value { font-size: 5.1vw; white-space: nowrap; }
+  .p-stat__label { font-size: 10px; }
+
+  /* ---- 10. readability ------------------------------------------------- */
+
+  /* section rhythm: 72px top + bottom stacked into 144px gaps on a phone */
+  .p-sec { padding-block: 52px; }
+
+  /* spec block: label and heading first, then the photograph, then the list */
+  .p-spec__eyebrow { grid-row: 1 !important; }
+  .p-spec__title   { grid-row: 2 !important; margin-bottom: 22px; }
+  .p-spec__media   { grid-row: 3 !important; margin: 18px 0 30px !important; }
+  .p-spec__acc     { grid-row: 4 !important; }
+
+  /* small type, lifted to a comfortable phone size */
+  .eyebrow { font-size: 11.5px; letter-spacing: 0.16em; }
+  .p-stat__label { font-size: 10.5px; }
+  .p-menu__note { font-size: 13px; line-height: 19px; }
+
+  .acc--features .acc__panel li,
+  .acc--features .acc__fees,
+  .acc--features .acc__lede,
+  .acc--features .acc__foot,
+  .acc--faq .acc__panel > div,
+  .acc--spaces .acc__panel > div > p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .foot__addr,
+  .t-small { font-size: 13.5px; line-height: 20px; }
+
+  /* the spaces accordion sits on bright video; settle it down on a phone */
+  .h-spaces .sec__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(14,13,12,0.25) 0%, rgba(14,13,12,0.62) 45%, rgba(14,13,12,0.72) 100%);
+    pointer-events: none;
+  }
+
+  /* multi-line display headings: Boldonse's tall caps crowd at 1.3 */
+  .p-intro__title,
+  .p-split__title,
+  .p-cta__title,
+  .s-about__title,
+  .s-faq__title { line-height: 1.38 !important; }
+
+  /* ---- 9. touch: no sticky hover states --------------------------------- */
+
+  .img-frame:hover img,
+  .reveal-img.img-frame:hover img { transform: none; }
+}

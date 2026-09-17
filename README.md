@@ -113,6 +113,18 @@ Accessibility and safety
 
 ## Mobile
 
+Below 768px the site no longer inherits the source's pinned mobile layout.
+`assets/css/mobile.css` (loaded last) puts every section into flow — auto
+height, natural rows — and rebuilds the compositions that matter: the hero
+collage, the manifesto overlay, the blue image plate (an offset shadow on
+phones), and the gallery strip (a swipeable, snapping row). The desktop sheets
+are untouched, so the 1440 replica still measures exact.
+
+Tested as a visitor sees it: scrolled screen by screen at 414 / 390 / 375 / 360 /
+320, with touch and coarse-pointer emulation confirmed separately. Zero
+horizontal overflow, zero sub-44px targets, zero clipped text at every width.
+
+
 Audited at 390 / 360 / 320 px. Zero horizontal overflow, zero tap targets under
 44px on all four pages.
 

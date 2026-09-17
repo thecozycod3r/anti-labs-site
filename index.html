@@ -6,10 +6,11 @@
 <title>Home v1 | Unleash Creativity Today - Book Now — Anti Labs Studios</title>
 <meta name="description" content="Anti Labs Studios — three spaces in North Bangalore: Anti Light studio, Anti Motion studio and Anti Dote cafe.">
 <link rel="icon" href="assets/img/11-6.png">
-<link rel="stylesheet" href="assets/css/style.css?v=1789634179">
-<link rel="stylesheet" href="assets/css/home.css?v=1789634179">
-<link rel="stylesheet" href="assets/css/enhance.css?v=1789634179">
-<link rel="stylesheet" href="assets/css/motion.css?v=1789634179">
+<link rel="stylesheet" href="assets/css/style.css?v=1789638799">
+<link rel="stylesheet" href="assets/css/home.css?v=1789638799">
+<link rel="stylesheet" href="assets/css/enhance.css?v=1789638799">
+<link rel="stylesheet" href="assets/css/motion.css?v=1789638799">
+<link rel="stylesheet" href="assets/css/mobile.css?v=1789638799">
 </head>
 <body>
 
@@ -49,7 +50,7 @@
   <section class="sec h-manifesto">
     <img class="h-manifesto__img-main reveal-img" data-parallax="-0.05" src="assets/img/h04-pexels-jean-daniel-30936143.jpg"
          alt="Blurred image showing a person with sweeping motion." srcset="assets/img/h04-pexels-jean-daniel-30936143-480w.jpg 480w, assets/img/h04-pexels-jean-daniel-30936143-960w.jpg 960w, assets/img/h04-pexels-jean-daniel-30936143.jpg 2500w" sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" decoding="async">
-    <h4 class="h-manifesto__text t-h4 reveal">We built Anti Labs for the ones who<br>shoot at <em class="u-red">3AM</em>, rehearse until<br>their feet give out, and drink coffee like<br>it&rsquo;s <em class="u-red">ritual</em>. Three spaces.<br>Infinite <em class="u-red">possibilities</em>.</h4>
+    <h4 class="h-manifesto__text t-h4 reveal">We built Anti Labs for the ones who <br>shoot at <em class="u-red">3AM</em>, rehearse until <br>their feet give out, and drink coffee like <br>it&rsquo;s <em class="u-red">ritual</em>. Three spaces. <br>Infinite <em class="u-red">possibilities</em>.</h4>
     <img class="h-manifesto__img-side reveal-img" data-parallax="0.13" src="assets/img/h05-pexels-serdargoksu-29858662.jpg"
          alt="Close-up of a person's neck and chest wearing a camera pendant." srcset="assets/img/h05-pexels-serdargoksu-29858662-480w.jpg 480w, assets/img/h05-pexels-serdargoksu-29858662-960w.jpg 960w, assets/img/h05-pexels-serdargoksu-29858662.jpg 2500w" sizes="(max-width: 767px) 100vw, 50vw" loading="lazy" decoding="async">
     <img class="h-manifesto__img-cafe reveal-img" data-parallax="0.08" src="assets/img/h06-pexels-ryla143-15417612.jpg"
@@ -75,11 +76,15 @@
   <!-- 4. The spaces ------------------------------------------------------- -->
   <section class="sec h-spaces" id="spaces">
     <div class="sec__bg">
-      <video class="bg-video" poster="assets/video/spaces-poster.jpg"
-             data-src-desktop="assets/video/spaces-bg-opt.mp4"
-             data-src-mobile="assets/video/spaces-bg-mobile.mp4"
-             autoplay loop muted playsinline preload="metadata"
-             aria-hidden="true" tabindex="-1"></video>
+      <!-- muted first: Safari evaluates autoplay eligibility from the markup as
+           it parses, and a video whose src only arrives from JS is treated as
+           unplayable — it paints its own play button and never starts. -->
+      <video class="bg-video" muted autoplay loop playsinline preload="auto"
+             poster="assets/video/spaces-poster.jpg"
+             disablepictureinpicture aria-hidden="true" tabindex="-1">
+        <source src="assets/video/spaces-bg-mobile.mp4" media="(max-width: 767px)" type="video/mp4">
+        <source src="assets/video/spaces-bg-opt.mp4" type="video/mp4">
+      </video>
     </div>
 
     <h1 class="h-spaces__title u-red t-fit reveal">The Spaces</h1>
@@ -117,8 +122,8 @@
 
 </main>
 
-<script src="assets/js/main.js?v=1789634179"></script>
-<script src="assets/js/enhance.js?v=1789634179"></script>
-<script src="assets/js/motion.js?v=1789634179"></script>
+<script src="assets/js/main.js?v=1789638799"></script>
+<script src="assets/js/enhance.js?v=1789638799"></script>
+<script src="assets/js/motion.js?v=1789638799"></script>
 </body>
 </html>

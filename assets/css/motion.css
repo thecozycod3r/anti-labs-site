@@ -834,3 +834,31 @@ body.has-reticle select {
   /* the reticle is pointer-only — make sure nothing reserves space for it */
   .cursor { display: none; }
 }
+
+/* Safari paints a start-playback button over a background video it refuses to
+   autoplay. The poster is the intended fallback, not a control the visitor is
+   meant to press, so suppress the affordance on decorative video only. */
+.bg-video::-webkit-media-controls,
+.bg-video::-webkit-media-controls-start-playback-button,
+.bg-video::-webkit-media-controls-panel,
+.bg-video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+}
+
+.bg-video {
+  pointer-events: none;
+}
+
+/* The spaces accordion sits on the right, where the video's light panel
+   blows out. Darken that side only; the red title on the left stays vivid. */
+@media (min-width: 768px) {
+  .h-spaces .sec__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(14,13,12,0) 38%, rgba(14,13,12,0.5) 62%, rgba(14,13,12,0.62) 100%);
+  }
+}

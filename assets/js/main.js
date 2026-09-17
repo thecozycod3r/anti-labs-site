@@ -47,45 +47,48 @@ document.querySelectorAll('.acc').forEach(function (list) {
 })();
 
 /* Background video.
-   Two things bite here. Browsers only honour muted autoplay when the *property*
-   is set (not just the attribute), and Safari still refuses when Low Power Mode
-   is on or the site's auto-play setting says no — in which case it paints its
-   own play button over the poster. So: pick a source sized for the viewport,
-   set muted properly, then retry on the first user gesture if it was refused. */
+   The sources are declared in the markup so the browser can judge autoplay
+   eligibility while parsing. This only handles the cases where it still says no:
+   the muted *property* (not just the attribute) has to be set, and Safari
+   refuses outright under Low Power Mode or a per-site auto-play setting. So try
+   at every point the state could change, and again on the first user gesture. */
 document.querySelectorAll('video.bg-video, .sec__bg video').forEach(function (v) {
-  var mobile = window.matchMedia('(max-width: 767px)').matches;
-  var src = v.getAttribute(mobile ? 'data-src-mobile' : 'data-src-desktop');
-  if (src && !v.getAttribute('src')) v.setAttribute('src', src);
-
   v.muted = true;
   v.defaultMuted = true;
   v.playsInline = true;
-  v.setAttribute('muted', '');
 
-  function attempt() {
+  var settled = false;
+
+  function tryPlay() {
+    if (settled || !v.paused) return;
     var p = v.play();
-    if (p && p.catch) {
-      p.catch(function () {
-        // refused — wait for any gesture, then try once more
-        ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (evt) {
-          window.addEventListener(evt, retry, { once: true, passive: true });
-        });
-      });
-    }
+    if (p && p.then) p.then(function () { settled = true; }).catch(function () {});
   }
 
-  function retry() {
-    var p = v.play();
-    if (p && p.catch) p.catch(function () { /* poster frame stands in */ });
-  }
-
-  if (v.readyState >= 2) attempt();
-  else v.addEventListener('loadeddata', attempt, { once: true });
-
-  // a backgrounded tab pauses it; resume when the page is visible again
-  document.addEventListener('visibilitychange', function () {
-    if (!document.hidden && v.paused) retry();
+  ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(function (e) {
+    v.addEventListener(e, tryPlay);
   });
+
+  // any gesture is enough to satisfy a blocked autoplay policy
+  ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll', 'mousemove'].forEach(function (e) {
+    window.addEventListener(e, tryPlay, { passive: true });
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) tryPlay();
+  });
+
+  // start it once it is actually on screen, and pause when it is not
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) tryPlay();
+        else if (!v.paused) v.pause();
+      });
+    }, { threshold: 0.1 }).observe(v);
+  }
+
+  tryPlay();
 });
 
 /* Contact form: no backend here, so acknowledge in place. */
