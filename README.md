@@ -215,6 +215,10 @@ Absolute URLs point at **theantilabs.com**, not the GitHub Pages preview — a
 preview that canonicalises to itself would compete with the client's real site.
 One command moves them: `python3 tools/seo.py --site https://example.com`.
 
+Run `python3 tools/audit.py` before any deploy — it fails on a noindex, a long
+title, a missing canonical, a second h1, invalid JSON-LD, a missing alt or a
+broken srcset.
+
 Full status, launch steps and the backlink plan: `docs/SEO.md`.
 
 

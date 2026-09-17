@@ -83,6 +83,8 @@ FONT_PRELOADS = [
 
 START, END = "<!-- seo:start -->", "<!-- seo:end -->"
 
+GSC_TOKEN = ""   # set with --gsc; Search Console gives you this string
+
 
 def url(site, slug):
     return site.rstrip("/") + "/" + slug
@@ -100,6 +102,42 @@ def srcset_for(path):
         if os.path.exists(os.path.join(ROOT, f"{base}-{w}w.jpg")):
             parts.append(f"{base}-{w}w.jpg {w}w")
     return ", ".join(parts)
+
+
+def faq_entries(html):
+    """Pull Q&A out of the FAQ accordion only.
+
+    Scoped to `.acc--faq`: the hire and spaces accordions share the same markup
+    but are not questions, and marking them up as FAQPage would be wrong.
+    """
+    m = re.search(r'<ul class="acc acc--faq[^"]*"[^>]*>(.*?)</ul>', html, re.S)
+    if not m:
+        return []
+    scope = m.group(1)
+    out = []
+    for block in re.findall(
+            r'<button class="acc__btn"[^>]*>(.*?)<span class="acc__icon">.*?'
+            r'<div class="acc__panel"><div>(.*?)</div></div>', scope, re.S):
+        q = re.sub(r"<[^>]+>", "", block[0]).strip()
+        a = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", block[1])).strip()
+        if q and a:
+            out.append((q, a))
+    return out
+
+
+def faq_schema(html):
+    entries = faq_entries(html)
+    if len(entries) < 3:
+        return None
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in entries
+        ],
+    }
 
 
 def jsonld(site, file, meta):
@@ -151,7 +189,7 @@ def jsonld(site, file, meta):
     return json.dumps(data, indent=2, ensure_ascii=False)
 
 
-def head_block(site, file, meta):
+def head_block(site, file, meta, html=""):
     canonical = url(site, meta["slug"])
     og_image = url(site, meta["og"])
     lines = [
@@ -161,6 +199,10 @@ def head_block(site, file, meta):
         f'<link rel="canonical" href="{canonical}">',
         '<meta name="robots" content="index, follow, max-image-preview:large">',
         '<meta name="theme-color" content="#0e0d0c">',
+    ]
+    if GSC_TOKEN:
+        lines.append(f'<meta name="google-site-verification" content="{GSC_TOKEN}">')
+    lines += [
         "",
         '<meta property="og:type" content="website">',
         f'<meta property="og:site_name" content="{BUSINESS["name"]}">',
@@ -190,8 +232,13 @@ def head_block(site, file, meta):
         '<script type="application/ld+json">',
         jsonld(site, file, meta),
         "</script>",
-        END,
     ]
+    faq = faq_schema(html)
+    if faq:
+        lines += ['<script type="application/ld+json">',
+                  json.dumps(faq, indent=2, ensure_ascii=False),
+                  "</script>"]
+    lines.append(END)
     return "\n".join(lines)
 
 
@@ -222,7 +269,7 @@ def build(site):
     for file, meta in PAGES.items():
         path = os.path.join(ROOT, file)
         s = open(path, encoding="utf-8").read()
-        block = head_block(site, file, meta)
+        block = head_block(site, file, meta, s)
 
         if START in s:
             s = re.sub(re.escape(START) + r".*?" + re.escape(END), lambda m: block, s, flags=re.S)
@@ -261,4 +308,8 @@ def build(site):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--site", default=DEFAULT_SITE)
-    build(ap.parse_args().site)
+    ap.add_argument("--gsc", default="", help="google-site-verification token")
+    a = ap.parse_args()
+    GSC_TOKEN = a.gsc
+    globals()["GSC_TOKEN"] = a.gsc
+    build(a.site)

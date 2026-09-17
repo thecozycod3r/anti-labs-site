@@ -20,8 +20,55 @@ work rather than code — backlinks — is planned at the bottom.
 | Internal links | Header nav, footer nav, contextual links from each space |
 | Canonical tags | Absolute, one per page |
 
+| Enforce HTTPS | GitHub Pages `https_enforced`; http 301s to https; no mixed content |
+| Compress all images | Originals capped at 1600px, progressive JPEG; 17.6MB → 8.2MB |
+| Schema markup | LocalBusiness, WebSite, BreadcrumbList, FAQPage |
+| Search Console | Hook ready — `--gsc <token>`; verification needs the owner's account |
+| Only 1 H1 per page | Enforced, and checked by `tools/audit.py` |
+| robots.txt | Generated, references the sitemap |
+| Mobile responsiveness | Rebuilt below 768px; verified 414→320px |
+
 Extras: JSON-LD (`LocalBusiness` with address and departments on the home page,
 `BreadcrumbList` elsewhere), `robots.txt`, `theme-color`, font and LCP preloads.
+
+## Tools
+
+| Command | Does |
+|---|---|
+| `python3 tools/seo.py` | Rebuilds head tags, sitemap, robots |
+| `python3 tools/seo.py --gsc <token>` | Adds the Search Console verification meta |
+| `python3 tools/images.py` | Compresses images, rebuilds variants, rewrites markup |
+| `python3 tools/audit.py` | Static audit; non-zero exit on failure |
+| `python3 tools/audit.py --live <url>` | Also checks HTTPS and that every URL is 200 |
+
+`audit.py` is the guard: it fails on a noindex, a title over 60 chars, a missing
+canonical or og:image, more or fewer than one h1, a skipped heading level,
+invalid JSON-LD, a missing alt, a broken srcset file, an oversized image, an
+opaque PNG, or a sitemap with a non-HTTPS URL.
+
+## Images
+
+`tools/images.py` caps originals at 1600px (nothing renders wider, even at 2×),
+converts opaque PNGs to progressive JPEG, and builds 480/960/1440 variants. Two
+files stay PNG because they genuinely use transparency: the logo and the footer
+mark.
+
+Over two passes: originals 17.6MB → 8.2MB. On the wire a phone pulls roughly
+250–370KB of images per page.
+
+WebP/AVIF would save perhaps another 30%, but it needs `<picture>` elements, and
+several CSS rules select `.gallery img:nth-child(n)` — wrapping the images would
+break them. Worth doing deliberately, not as a find-and-replace.
+
+## Search Console
+
+The markup hook exists; verifying needs access to the owner's Google account:
+
+1. Search Console → Add property → **Domain** (covers all subdomains and both
+   protocols) if you can add a DNS TXT record; otherwise URL prefix.
+2. For the URL-prefix method, take the token and run
+   `python3 tools/seo.py --gsc <token>`, deploy, then press Verify.
+3. Submit `sitemap.xml`, then request indexing for the four URLs.
 
 ## The domain
 
