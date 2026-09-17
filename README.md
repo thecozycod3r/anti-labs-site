@@ -128,6 +128,32 @@ Everything else is written to demonstrate the design and **needs your sign-off**
   rigging) are extrapolated from the one-line description. Verify before publishing.
 - Forms are front-end only — no backend is wired up.
 
+## Contrast — a deliberate divergence from the original
+
+The live site sets white type over photographs in several places. Auditing every
+such overlay (hide the text, photograph the backdrop, measure the 95th-percentile
+luminance under the type) found three that failed WCAG's 3:1 minimum for large
+text:
+
+| | before | after |
+|---|---|---|
+| Home — manifesto statement | 1.83:1 | 9.68:1 |
+| Home — "STUDIOS" over the eye plate | 2.02:1 | 8.76:1 |
+| Anti Light — first about paragraph | 2.11:1 | 6.00:1 |
+
+Mean contrast looked fine in all three; the failure only shows at the bright end,
+because the photos run from luminance 13 to 200 and the type crosses both.
+
+Fixes are the lightest touch that works: a radial scrim behind the manifesto
+text only, a shadow on "STUDIOS" (the chroma ghosts opt out so the colour
+fringing stays clean), and a directional gradient over the about backdrop that
+darkens the text column while leaving the heading side bright.
+
+**This means those three spots intentionally differ from the live Squarespace
+site, which has the same flaw.** Readability won. Everything else remains a
+measured 1:1 match — verified after these changes: 5683px / 3942px exact, worst
+deviation 1px.
+
 ## Images
 
 Photography is from **Pexels** (free licence, no attribution required — credited

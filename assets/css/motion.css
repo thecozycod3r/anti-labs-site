@@ -605,9 +605,9 @@ body.is-leaving .wipe {
   position: absolute;
   left: 0;
   top: 0;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
   mix-blend-mode: difference;
   transition: width 0.32s var(--ease-out), height 0.32s var(--ease-out),
               margin 0.32s var(--ease-out), opacity 0.25s ease;
@@ -615,9 +615,9 @@ body.is-leaving .wipe {
 
 .cursor__c {
   position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 1px solid #fff;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #fff;
 }
 
 .cursor__c--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
@@ -629,11 +629,14 @@ body.is-leaving .wipe {
   position: absolute;
   left: 0;
   top: 0;
-  width: 5px;
-  height: 5px;
-  margin: -2.5px 0 0 -2.5px;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
   background: var(--red);
   border-radius: 50%;
+  /* white ring + dark halo so the dot holds up on black rooms and on
+     blown-out studio windows alike */
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px 2px rgba(14, 13, 12, 0.7);
   /* position comes from JS each frame, so `transform` must stay untransitioned
      or the dot drifts behind the pointer; `scale` animates on its own */
   transition: scale 0.25s var(--ease-out), opacity 0.2s ease;
@@ -645,10 +648,12 @@ body.is-leaving .wipe {
   top: 0;
   transform: translate(26px, 12px);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--paper);
+  text-shadow: 0 0 8px rgba(14, 13, 12, 0.95);
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.22s ease;
@@ -656,9 +661,9 @@ body.is-leaving .wipe {
 
 /* over something interactive: the reticle opens up and locks on */
 .cursor.is-locked .cursor__box {
-  width: 62px;
-  height: 62px;
-  margin: -31px 0 0 -31px;
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
 }
 
 .cursor.is-locked .cursor__dot { scale: 0; }
@@ -728,5 +733,42 @@ body.has-reticle select {
     rgba(14, 13, 12, 0.42) 66%,
     rgba(14, 13, 12, 0.12) 85%,
     rgba(14, 13, 12, 0) 100%
+  );
+}
+
+
+/* ==========================================================================
+   Remaining contrast fixes, found by auditing every text-over-image overlay
+   rather than only the spot that was reported.
+   Measured worst-case (95th-percentile backdrop) before: 2.0:1 and 2.1:1.
+   ========================================================================== */
+
+/* STUDIOS crosses the brightest part of the eye plate. A shadow lifts it
+   without darkening the collage; the chroma ghosts opt out so the colour
+   fringing stays clean. */
+.h-hero__title2 {
+  text-shadow:
+    0 0 26px rgba(14, 13, 12, 0.95),
+    0 0 58px rgba(14, 13, 12, 0.8),
+    0 2px 6px rgba(14, 13, 12, 0.7);
+}
+
+.chroma::before,
+.chroma::after {
+  text-shadow: none;
+}
+
+/* The about copy sits over the blown-out shoulder of the backdrop photo.
+   Darken only the column the text occupies and leave the heading side bright. */
+.s-about .sec__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(14, 13, 12, 0) 40%,
+    rgba(14, 13, 12, 0.5) 62%,
+    rgba(14, 13, 12, 0.72) 100%
   );
 }
