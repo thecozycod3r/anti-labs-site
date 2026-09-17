@@ -19,7 +19,6 @@ work rather than code — backlinks — is planned at the bottom.
 | URL slugs | `/`, `/anti-light`, `/anti-motion`, `/anti-dote` |
 | Internal links | Header nav, footer nav, contextual links from each space |
 | Canonical tags | Absolute, one per page |
-
 | Enforce HTTPS | GitHub Pages `https_enforced`; http 301s to https; no mixed content |
 | Compress all images | Originals capped at 1600px, progressive JPEG; 17.6MB → 8.2MB |
 | Schema markup | LocalBusiness, WebSite, BreadcrumbList, FAQPage |
