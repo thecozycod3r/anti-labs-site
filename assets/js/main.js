@@ -59,10 +59,27 @@ document.querySelectorAll('video.bg-video, .sec__bg video').forEach(function (v)
 
   var settled = false;
 
+  /* When the browser refuses (Safari in Low Power Mode, or a site set to
+     "Never Auto-Play"), a still poster with no affordance reads as broken.
+     Offer a play control instead; it disappears once the reel is running. */
+  var host = v.closest('.sec') || v.parentElement;
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'video-play';
+  btn.setAttribute('aria-label', 'Play background reel');
+  btn.innerHTML = '<span class="video-play__icon" aria-hidden="true"></span><span>Play reel</span>';
+  btn.addEventListener('click', function (e) { e.stopPropagation(); tryPlay(); });
+  host.appendChild(btn);
+
+  v.addEventListener('playing', function () { host.classList.remove('video-blocked'); });
+
   function tryPlay() {
     if (settled || !v.paused) return;
     var p = v.play();
-    if (p && p.then) p.then(function () { settled = true; }).catch(function () {});
+    if (p && p.then) {
+      p.then(function () { settled = true; host.classList.remove('video-blocked'); })
+       .catch(function () { host.classList.add('video-blocked'); });
+    }
   }
 
   ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach(function (e) {

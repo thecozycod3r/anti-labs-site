@@ -862,3 +862,75 @@ body.has-reticle select {
     background: linear-gradient(90deg, rgba(14,13,12,0) 38%, rgba(14,13,12,0.5) 62%, rgba(14,13,12,0.62) 100%);
   }
 }
+
+/* Fallback play control — only shown when the browser refuses to autoplay. */
+.sec > .video-play {
+  position: absolute;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: end;
+  align-self: end;
+  right: var(--pad);
+  bottom: 28px;
+  z-index: 5;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 20px 0 14px;
+  border: 1px solid rgba(240, 240, 240, 0.55);
+  border-radius: 999px;
+  background: rgba(14, 13, 12, 0.72);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.video-blocked > .video-play { display: inline-flex; }
+
+.sec > .video-play:hover,
+.sec > .video-play:focus-visible {
+  border-color: var(--red);
+  background: rgba(187, 17, 34, 0.85);
+}
+
+.video-play__icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+@media (max-width: 767px) {
+  .sec > .video-play {
+    right: auto;
+    left: 50%;
+    bottom: 22px;
+    justify-self: auto;
+    transform: translateX(-50%);
+  }
+}
+
+/* WebKit paints its own start-playback triangle over a refused video, and its
+   modern controls live in a shadow root the ::-webkit-media-controls selectors
+   no longer reach. So when autoplay is refused, hide the element itself and
+   let the poster — set as the layer's background — carry the section. The
+   branded "Play reel" control is then the only affordance. */
+.h-spaces .sec__bg {
+  background: #0e0d0c url("../video/spaces-poster.jpg") center / cover no-repeat;
+}
+
+.video-blocked .bg-video {
+  opacity: 0;
+}
+
+.bg-video {
+  transition: opacity 0.5s ease;
+}
