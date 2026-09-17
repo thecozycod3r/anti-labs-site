@@ -579,3 +579,154 @@ body.is-leaving .wipe {
   .chroma::after { display: none; }
   .char__inner { transform: none; }
 }
+
+/* ==========================================================================
+   Cursor — a viewfinder reticle. Focus brackets that snap around whatever you
+   point at, with a red centre dot. Reads as a camera focus point, which is the
+   business these rooms are in.
+   Only for fine pointers; reduced motion falls back to the native cursor.
+   ========================================================================== */
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cursor.is-active { opacity: 1; }
+
+/* the brackets: difference blending keeps them legible on black rooms and
+   blown-out studio windows alike */
+.cursor__box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  mix-blend-mode: difference;
+  transition: width 0.32s var(--ease-out), height 0.32s var(--ease-out),
+              margin 0.32s var(--ease-out), opacity 0.25s ease;
+}
+
+.cursor__c {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #fff;
+}
+
+.cursor__c--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.cursor__c--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.cursor__c--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.cursor__c--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+.cursor__dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--red);
+  border-radius: 50%;
+  /* position comes from JS each frame, so `transform` must stay untransitioned
+     or the dot drifts behind the pointer; `scale` animates on its own */
+  transition: scale 0.25s var(--ease-out), opacity 0.2s ease;
+}
+
+.cursor__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(26px, 12px);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+/* over something interactive: the reticle opens up and locks on */
+.cursor.is-locked .cursor__box {
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+}
+
+.cursor.is-locked .cursor__dot { scale: 0; }
+.cursor.is-locked .cursor__label { opacity: 1; }
+
+.cursor.is-down .cursor__box {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+}
+
+/* over text being edited, get out of the way */
+.cursor.is-text .cursor__box,
+.cursor.is-text .cursor__label { opacity: 0; }
+
+body.has-reticle,
+body.has-reticle a,
+body.has-reticle button,
+body.has-reticle .p-strip__cell {
+  cursor: none;
+}
+
+/* text entry keeps the real caret */
+body.has-reticle input,
+body.has-reticle textarea,
+body.has-reticle select {
+  cursor: auto;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cursor { display: none; }
+  body.has-reticle,
+  body.has-reticle a,
+  body.has-reticle button,
+  body.has-reticle .p-strip__cell { cursor: auto; }
+}
+
+/* ==========================================================================
+   Manifesto legibility
+   The statement is set over a blurred photo whose luminance runs 13–200, so
+   the white type dropped to ~1.2:1 against the blown-out areas. A soft scrim
+   sits behind the text only, keeping the image bright at its edges.
+   ========================================================================== */
+
+.h-manifesto__img-main {
+  filter: brightness(0.82) contrast(1.04);
+}
+
+.h-manifesto__text {
+  position: relative;
+  isolation: isolate;
+}
+
+.h-manifesto__text::before {
+  content: "";
+  position: absolute;
+  inset: -92px -110px;
+  z-index: -1;
+  pointer-events: none;
+  /* `closest-side` so the gradient reaches full transparency exactly at the
+     box edges — the default (farthest-corner) is still opaque where it meets
+     the top and bottom, which shows up as a hard seam across the photo. */
+  background: radial-gradient(
+    ellipse closest-side at center,
+    rgba(14, 13, 12, 0.9) 0%,
+    rgba(14, 13, 12, 0.78) 38%,
+    rgba(14, 13, 12, 0.42) 66%,
+    rgba(14, 13, 12, 0.12) 85%,
+    rgba(14, 13, 12, 0) 100%
+  );
+}

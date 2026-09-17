@@ -224,8 +224,12 @@
    Split feature — image one side, copy the other
    -------------------------------------------------------------------------- */
 
+/* Both children must be pinned to row 1. Auto-placement is "sparse": once the
+   cursor has passed column 13 it will not go back for a column-1 item, so the
+   body silently drops into a second row and the section reads as dead space. */
 .p-split__media {
   grid-column: 1 / span 12;
+  grid-row: 1;
   align-self: center;
 }
 
@@ -237,6 +241,7 @@
 
 .p-split__body {
   grid-column: 15 / span 10;
+  grid-row: 1;
   align-self: center;
 }
 
@@ -339,6 +344,7 @@
 
 .p-visit__hours {
   grid-column: 1 / span 11;
+  grid-row: 3;
   align-self: start;
   align-content: start;
   margin: 0;
@@ -369,6 +375,7 @@
 
 .p-visit__media {
   grid-column: 14 / span 11;
+  grid-row: 3;
   align-self: start;
 }
 
@@ -444,10 +451,10 @@
 
   .p-strip { height: 210px; }
 
-  .p-split__media,
-  .p-split__body,
-  .p-split--flip .p-split__media,
-  .p-split--flip .p-split__body { grid-column: 1 / span 8; }
+  .p-split__media { grid-column: 1 / span 8; grid-row: 1; }
+  .p-split__body  { grid-column: 1 / span 8; grid-row: 2; }
+  .p-split--flip .p-split__media { grid-column: 1 / span 8; grid-row: 1; }
+  .p-split--flip .p-split__body  { grid-column: 1 / span 8; grid-row: 2; }
 
   .p-split__body { margin-top: 28px; }
 
@@ -457,10 +464,10 @@
 
   .p-menu__list { grid-template-columns: 1fr; }
 
-  .p-visit__eyebrow,
-  .p-visit__title,
-  .p-visit__hours,
-  .p-visit__media { grid-column: 1 / span 8; }
+  .p-visit__eyebrow { grid-column: 1 / span 8; grid-row: 1; }
+  .p-visit__title   { grid-column: 1 / span 8; grid-row: 2; }
+  .p-visit__hours   { grid-column: 1 / span 8; grid-row: 3; }
+  .p-visit__media   { grid-column: 1 / span 8; grid-row: 4; }
 
   .p-visit__media { margin-top: 34px; }
 

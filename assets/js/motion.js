@@ -215,6 +215,65 @@
     });
   }
 
+  /* ---- 7. viewfinder reticle cursor ------------------------------------- */
+  if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var cur = document.createElement('div');
+    cur.className = 'cursor';
+    cur.setAttribute('aria-hidden', 'true');
+    cur.innerHTML =
+      '<span class="cursor__box">' +
+        '<span class="cursor__c cursor__c--tl"></span>' +
+        '<span class="cursor__c cursor__c--tr"></span>' +
+        '<span class="cursor__c cursor__c--bl"></span>' +
+        '<span class="cursor__c cursor__c--br"></span>' +
+      '</span>' +
+      '<span class="cursor__dot"></span>' +
+      '<span class="cursor__label"></span>';
+    document.body.appendChild(cur);
+    document.body.classList.add('has-reticle');
+
+    var box = cur.querySelector('.cursor__box');
+    var dot = cur.querySelector('.cursor__dot');
+    var label = cur.querySelector('.cursor__label');
+
+    var tx = innerWidth / 2, ty = innerHeight / 2;   // target (pointer)
+    var bx = tx, by = ty;                            // brackets, eased behind
+
+    var LOCK = 'a, button, .p-strip__cell, .acc__btn, input, textarea, select, [data-cursor]';
+
+    document.addEventListener('pointermove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      cur.classList.add('is-active');
+
+      var hit = e.target.closest ? e.target.closest(LOCK) : null;
+      if (hit) {
+        var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(hit.tagName);
+        cur.classList.toggle('is-text', typing);
+        cur.classList.toggle('is-locked', !typing);
+        if (!typing) {
+          label.textContent = hit.getAttribute('data-cursor') ||
+            (hit.tagName === 'A' ? 'Open' : hit.classList.contains('acc__btn') ? 'Expand' : 'View');
+        }
+      } else {
+        cur.classList.remove('is-locked', 'is-text');
+        label.textContent = '';
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerdown', function () { cur.classList.add('is-down'); });
+    document.addEventListener('pointerup',   function () { cur.classList.remove('is-down'); });
+    document.addEventListener('pointerleave', function () { cur.classList.remove('is-active'); });
+
+    (function ride() {
+      bx += (tx - bx) * 0.18;                        // brackets lag, dot is exact
+      by += (ty - by) * 0.18;
+      box.style.transform = 'translate3d(' + bx.toFixed(1) + 'px,' + by.toFixed(1) + 'px,0)';
+      label.style.transform = 'translate3d(' + bx.toFixed(1) + 'px,' + by.toFixed(1) + 'px,0)';
+      dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+      raf(ride);
+    })();
+  }
+
   /* ---- 6. page transition wipe ------------------------------------------ */
   if (!reduce) {
     var wipe = document.createElement('div');
