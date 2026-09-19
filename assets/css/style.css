@@ -53,6 +53,11 @@ img,
 video {
   display: block;
   max-width: 100%;
+  /* The width/height attributes on every <img> reserve layout space, but they
+     also act as presentational hints. Without this, a definite attribute height
+     wins over any `aspect-ratio` rule and the image renders at its intrinsic
+     pixel height instead of the ratio the layout asks for. */
+  height: auto;
 }
 
 a {
