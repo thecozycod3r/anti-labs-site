@@ -319,3 +319,18 @@ html {
 
   .marquee__item { gap: 30px; }
 }
+
+/* Credit line below the footer */
+.site-credit {
+  margin: 0;
+  padding: 0 var(--gutter, 36px) 28px;
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(242, 242, 242, .45);
+}
+.site-credit a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.site-credit a:hover, .site-credit a:focus-visible { color: #f0f0f0; }
+
