@@ -324,9 +324,9 @@ html {
 .site-credit { margin: 0; padding: 12px var(--gutter, 36px) 40px; text-align: center; }
 .site-credit a {
   display: inline-flex; align-items: center; gap: .7em;
-  padding: 12px 22px; background: #bb1122; color: #f0f0f0; text-decoration: none;
+  padding: 8px 16px; background: #bb1122; color: #f0f0f0; text-decoration: none;
   border: 1px solid #bb1122; transition: background .2s, color .2s;
 }
-.site-credit__by { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
-.site-credit__name { font-family: var(--display); font-size: 18px; line-height: 1.3; text-transform: uppercase; }
+.site-credit__by { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+.site-credit__name { font-family: var(--display); font-size: 14px; line-height: 1.3; text-transform: uppercase; }
 .site-credit a:hover, .site-credit a:focus-visible { background: #0e0d0c; color: #f0f0f0; }
